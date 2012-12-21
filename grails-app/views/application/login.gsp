@@ -8,12 +8,16 @@
 	
 		<div id="login" class="row">
 		
+			<g:if test="${flash.invalidToken}">
+			  	Don't click the button twice!
+			</g:if>
+		
 		    <div class="span3">
 		    
 				<h1><g:message code="playauthenticate.login.title" /></h1>
 			      @* Display proprietary login form *@
-			      	<g:form action="login">
-			      		<g:textField name="username" />
+			      	<g:form action="login" useToken="true">
+    					<f:field bean="person" property="username" />
 			      		<g:submitButton name="submit" value="Continue"></g:submitButton>
 			      	</g:form>
 			    	

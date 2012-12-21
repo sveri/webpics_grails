@@ -2,14 +2,32 @@ package webpics_grails
 
 class ApplicationController {
 
-    def index() { }
-	
+	def index() {
+	}
+
 	def login() {
-		on("submit").to "doLogin"
-		
+		[loginForm: LoginCommand]
 	}
+
+	def doLogin(LoginCommand cmd) {
+		withForm {
+			if (cmd.hasErrors()) {
+				redirect(action: 'login')	
+			}
+			System.out.println("truiane");
+		}
+	}
+}
+
+@grails.validation.Validateable
+class LoginCommand {
+    String username
+    String password
 	
-	def doLogin() {
-		System.out.println("truiane");
-	}
+	
+
+	static constraints = { 
+		username(blank: false, minSize: 6) 
+		password(blank: false, minSize: 6) 
+	} 
 }
