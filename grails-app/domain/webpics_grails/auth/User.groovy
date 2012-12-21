@@ -1,10 +1,11 @@
 package webpics_grails.auth
 
-class ShiroUser {
+class User {
     String username
     String passwordHash
+	byte[] passwordSalt
     
-    static hasMany = [ roles: ShiroRole, permissions: String ]
+    static hasMany = [ roles: Role, permissions: String ]
 
     static constraints = {
         username(nullable: false, blank: false, unique: true)
