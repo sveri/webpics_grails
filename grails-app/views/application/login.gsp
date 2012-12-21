@@ -17,7 +17,10 @@
 				<h1><g:message code="playauthenticate.login.title" /></h1>
 			      @* Display proprietary login form *@
 			      	<g:form action="login" useToken="true">
-    					<f:field bean="person" property="username" />
+    					<f:field bean="loginCommand" property="username" />
+    					<f:field bean="loginCommand" property="password">
+						    <g:passwordField name="password"/>
+						</f:field>
 			      		<g:submitButton name="submit" value="Continue"></g:submitButton>
 			      	</g:form>
 			    	

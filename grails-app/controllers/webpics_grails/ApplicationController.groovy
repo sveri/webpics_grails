@@ -6,7 +6,7 @@ class ApplicationController {
 	}
 
 	def login() {
-		[loginForm: LoginCommand]
+		[loginCommand: new LoginCommand()]
 	}
 
 	def doLogin(LoginCommand cmd) {
