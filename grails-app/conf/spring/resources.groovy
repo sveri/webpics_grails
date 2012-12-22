@@ -4,7 +4,7 @@ import org.apache.shiro.crypto.hash.Sha512Hash;
 
 beans = { 
 	credentialMatcher(HashedCredentialsMatcher) {
-	    storedCredentialsHexEncoded = true
+	    storedCredentialsHexEncoded = false
 	    hashIterations=1024
 	    hashAlgorithmName=Sha512Hash.ALGORITHM_NAME
     } 
