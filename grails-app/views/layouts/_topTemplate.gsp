@@ -12,13 +12,13 @@
 			<div class="btn-group pull-right">
 				<shiro:isLoggedIn>
 					<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-		              		<i class="icon-user"></i> <shiro:user></shiro:user>
+		              		<i class="icon-user"></i> <shiro:principal></shiro:principal>
 		              		<span class="caret"></span>
 		            	</a>
 		            	
 		            	<ul class="dropdown-menu">
 			              	<li class="divider"></li>
-			              	<li><a href="@com.feth.play.module.pa.controllers.routes.Authenticate.logout()"><i class="icon-off"></i> @Messages("playauthenticate.navigation.logout")</a></li>
+			              	<li><g:link controller="auth" action="signOut"><i class="icon-off"></i> <g:message code="pix.signout" /></g:link></li>
 		            	</ul>
 				</shiro:isLoggedIn>
 				<shiro:isNotLoggedIn>
@@ -30,6 +30,13 @@
           
 			<div class="nav-collapse">
 				<ul class="nav">
+					<shiro:isLoggedIn>
+						<li><g:link controller="album"><g:message code="pix.navigation.albums" /></g:link></li>
+						<shiro:hasRole name="Administrator">
+							<li><a href="@routes.Admin.userOverview"><g:message code="pix.navigation.user" /></a></li>
+						</shiro:hasRole>
+					</shiro:isLoggedIn>
+					
             	
             	</ul>
             </div><!--/.nav-collapse -->
