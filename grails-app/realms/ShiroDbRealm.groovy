@@ -33,7 +33,6 @@ class ShiroDbRealm {
 
         // Now check the user's password against the hashed value stored
         // in the database.
-//        def account = new SimpleAccount(username, user.passwordHash, "ShiroDbRealm")
 		def account = new SimpleAccount(username,user.passwordHash,new SimpleByteSource(user.passwordSalt),"ShiroDbRealm")
         if (!credentialMatcher.doCredentialsMatch(authToken, account)) {
             log.info "Invalid password (DB realm)"
