@@ -15,12 +15,21 @@
 				</ul>
 			</div>
 		</content>
+		
+		<shiro:hasRole name="Viewer">
+			<h3><g:message code="pix.albums.choose_album" /></h3>
+		</shiro:hasRole>
 
-		<div class="hero-unit">
-			<h1><g:message code="pix.index.intro" /></h1>
-			<shiro:isNotLoggedIn>
-				<p><g:message code="pix.index.intro_2" /></p>
-			</shiro:isNotLoggedIn>
-		</div>
+		<shiro:hasAnyRole in="['Administrator', 'User']">
+			<fieldset>
+				
+				<legend><g:message code="pix.albums.new.album" />:</legend>
+			
+		      	<g:form action="addAlbum" useToken="true">
+  					<f:field bean="albumForm" property="name" />
+		      		<g:submitButton name="submit" value="${message(code:'pix.ok')}" />
+		      	</g:form>
+			</fieldset>
+		</shiro:hasAnyRole>
 	</body>
 </html>

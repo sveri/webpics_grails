@@ -11,11 +11,12 @@
 			<g:if test="${flash.invalidToken}">
 			  	Don't click the button twice!
 			</g:if>
+			
+			<g:renderErrors bean="${user}" />
 		
 		    <div class="span3">
 		    
 				<h1><g:message code="playauthenticate.login.title" /></h1>
-			      @* Display proprietary login form *@
 			      	<g:form action="login" useToken="true">
     					<f:field bean="loginCommand" property="username" />
     					<f:field bean="loginCommand" property="password">

@@ -2,10 +2,17 @@ package webpics_grails
 
 class AlbumController {
 	
-	List albums
-	
     def index() { 
-		albums = Album.listOrderByName()
+		[albums: Album.listOrderByName(), albumForm: new Album()]
+	}
+	
+	def addAlbum(){
+		def album = new Album()
+		album.name = params.albumname
+		if(!album.save()){
+			
+		}
+		redirect(action: 'index')
 	}
 	
 	def album() {
