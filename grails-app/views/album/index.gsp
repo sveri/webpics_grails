@@ -24,8 +24,13 @@
 			<fieldset>
 				
 				<legend><g:message code="pix.albums.new.album" />:</legend>
+				<g:renderErrors bean="${albumForm}" />
+				
+				<g:if test="${flash.message}">
+					<div class="message" role="status">${flash.message}</div>
+				</g:if>
 			
-		      	<g:form action="addAlbum" useToken="true">
+		      	<g:form action="save" useToken="true">
   					<f:field bean="albumForm" property="name" />
 		      		<g:submitButton name="submit" value="${message(code:'pix.ok')}" />
 		      	</g:form>
