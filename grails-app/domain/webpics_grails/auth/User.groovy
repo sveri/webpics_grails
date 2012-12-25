@@ -9,6 +9,7 @@ class User {
 
     static constraints = {
         username(nullable: false, blank: false, unique: true)
+//		roles blank: false, nullable: false
     }
 	
 	String toString(){

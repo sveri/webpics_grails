@@ -33,7 +33,7 @@
 					<shiro:isLoggedIn>
 						<li><g:link controller="album"><g:message code="pix.navigation.albums" /></g:link></li>
 						<shiro:hasRole name="Administrator">
-							<li><a href="@routes.Admin.userOverview"><g:message code="pix.navigation.user" /></a></li>
+							<li><g:link controller="user"><g:message code="pix.navigation.user" /></g:link></li>
 						</shiro:hasRole>
 					</shiro:isLoggedIn>
 					
