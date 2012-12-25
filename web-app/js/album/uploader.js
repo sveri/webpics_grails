@@ -12,12 +12,12 @@ $(document).ready(function() {
 		forceMultipart : true,
 		uploadButtonText : "Select Files",
 		// path to server-side upload script
-		action : '/album/upload/files/',
+		action : 'jsupload/',
 		allowedExtensions : [ "jpg", "png", "gif", "zip" ],
-		onComplete : function(id, fileName, responseJSON){console.log("bin da")},
+		onComplete : function(id, fileName, responseJSON){},
 		onSubmit: function() {
 	        uploader.setParams({
-	            albumId: $('#albumId').val()
+	            albumid: $('#albumId').val()
 	        });
 	    }
 

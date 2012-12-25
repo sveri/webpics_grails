@@ -6,6 +6,8 @@ class UrlMappings {
 				// apply constraints here
 			}
 		}
+		
+		"/jsupload/$albumid/$qqfile"(controller: "Album", action: "jsfiles")
 
 		"/"(view:"/index")
 		"500"(view:'/error')
