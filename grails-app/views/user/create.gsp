@@ -22,7 +22,7 @@
 			</g:hasErrors>
 			
 			<g:form action="save"  enctype="multipart/form-data">
-				<fieldset class="form" model="[create: 'asdfasdf']">
+				<fieldset class="form" >
 					<g:render template="form"/>
 				</fieldset>
 				<fieldset class="buttons">

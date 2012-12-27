@@ -14,16 +14,18 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="A tool to handle pictures.">
 	<meta name="author" content="Sven Richter">
-
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<title><g:layoutTitle default="Grails"/></title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="${resource(dir: 'css', file: 'main.css')}" type="text/css">
+	
+	<title><g:layoutTitle default="Grails"/></title>
+	
 	<r:require modules="bootstrap"/>
 	
 	<g:layoutHead/>
 	<r:layoutResources />
+	
+	<link rel="stylesheet" href="${resource(dir: 'css', file: 'main.css')}" type="text/css">
 </head>
 
 <body>
