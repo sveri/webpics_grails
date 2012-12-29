@@ -1,13 +1,16 @@
-<div class="fieldcontain ${hasErrors(bean: password, field: 'password', 'error')} ">
+<g:hiddenField name="id" value="${user?.id}" />
+<g:hiddenField name="version" value="${user?.version}" />
 
-	<f:field bean="password" property="password">
-	    <g:passwordField name="password"/>
-	</f:field>
-</div>
-
-<div class="fieldcontain ${hasErrors(bean: password, field: 'passwordRepeat', 'error')} ">
-
-	<f:field bean="password" property="passwordRepeat">
-	    <g:passwordField name="passwordRepeat"/>
-	</f:field>
-</div>
+<fieldset class="form">
+	<div class="fieldcontain ${hasErrors(bean: passwordCommand, field: 'password', 'error')} ">
+		<f:field bean="passwordCommand" property="password">
+		    <g:passwordField name="password" required="" />
+		</f:field>
+	</div>
+	
+	<div class="fieldcontain ${hasErrors(bean: passwordCommand, field: 'passwordRepeat	', 'error')} ">
+		<f:field bean="passwordCommand" property="passwordRepeat">
+		    <g:passwordField name="passwordRepeat" required="" />
+		</f:field>
+	</div>
+</fieldset>
