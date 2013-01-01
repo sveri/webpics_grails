@@ -37,6 +37,10 @@ public class PictureServiceJava {
 
     }
 
+    public void resizeAndSaveImages(final File baseImageFile, final String albumBasePath) {
+
+    }
+
     public static final String ALBUM_PATH = "album";
 
     public static final String BIG_PATH = "big";

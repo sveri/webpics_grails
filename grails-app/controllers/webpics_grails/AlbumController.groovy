@@ -6,7 +6,7 @@ class AlbumController {
 	static allowedMethods = [save: "POST", upload: "GET", index: "GET", album: "GET", jsupload: "POST"]
 //			static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
-def pictureService
+	def pictureService
 
 	def album(){
 		[album: Album.get(params.id)]
@@ -37,7 +37,6 @@ def pictureService
             try{
                 pictureService.storePicture(request.getInputStream(), params.albumid, params.qqfile)
             } catch (all) {
-                baseImageFile.delete()
                 render(status: response.SC_INTERNAL_SERVER_ERROR, text:"{success: false}")
             }
             render(status: response.SC_OK, text:"{success: true}")

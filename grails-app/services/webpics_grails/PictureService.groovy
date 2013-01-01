@@ -16,6 +16,8 @@ class PictureService {
 
 	File baseImageFile = new File(albumBasePath + File.separator + fileName)
 	saveInputStreamToFile(baseImageFile, is)
+
+	pictureServiceJava.resizeAndSaveImages(baseImageFile, albumBasePath)
     }
 
     def saveInputStreamToFile(File baseImageFile, InputStream is) throws Exception{
