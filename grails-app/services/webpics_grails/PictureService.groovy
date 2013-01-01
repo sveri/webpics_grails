@@ -1,6 +1,6 @@
 package webpics_grails
 
-import org.springframework.aop.ThrowsAdvice
+import java.nio.file.Files
 
 class PictureService {
 
@@ -14,10 +14,12 @@ class PictureService {
 
 	pictureServiceJava.createImageDirsIfNotExist(albumBasePath)
 
-	File baseImageFile = new File(albumBasePath + File.separator + fileName)
-	saveInputStreamToFile(baseImageFile, is)
+	File baseTempImageFile = Files.createTempFile(fileName, "webpics")
 
-	pictureServiceJava.resizeAndSaveImages(baseImageFile, albumBasePath)
+	//	File baseImageFile = new File(albumBasePath + File.separator + fileName)
+	saveInputStreamToFile(baseTempImageFile, is)
+
+	pictureServiceJava.resizeAndSaveImages(baseTempImageFile, albumBasePath, fileName)
     }
 
     def saveInputStreamToFile(File baseImageFile, InputStream is) throws Exception{

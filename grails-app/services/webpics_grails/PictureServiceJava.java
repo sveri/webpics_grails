@@ -37,15 +37,50 @@ public class PictureServiceJava {
 
     }
 
-    public void resizeAndSaveImages(final File baseImageFile, final String albumBasePath) {
+    public void resizeAndSaveImages(final File baseTempImageFile, final String albumBasePath, final String fileName)
+	    throws IOException {
+	final BufferedImage imageOriginal = ImageIO.read(baseTempImageFile);
+	final BufferedImage thumbnail = createThumbnail(imageOriginal);
+	final BufferedImage normal = createNormalImage(imageOriginal);
+	final BufferedImage imageBig = createBig(imageOriginal);
 
+	ImageIO.write(imageBig, "jpg", getBigFile(albumBasePath, fileName));
+	ImageIO.write(thumbnail, "jpg", getThumbFile(albumBasePath, fileName));
+	ImageIO.write(normal, "jpg", getBaseFile(albumBasePath, fileName));
     }
 
-    public static final String ALBUM_PATH = "album";
+    private File getBigFile(final String albumBasePath, final String fileName) {
+	return new File(albumBasePath + File.separator + "big" + File.separatorChar + fileName);
+    }
 
-    public static final String BIG_PATH = "big";
+    private File getThumbFile(final String albumBasePath, final String fileName) {
+	return new File(albumBasePath + File.separator + "thumbs" + File.separatorChar + fileName);
+    }
 
-    public static final String THUMBS_PATH = "thumbs";
+    private File getBaseFile(final String albumBasePath, final String fileName) {
+	return new File(albumBasePath + File.separatorChar + fileName);
+    }
+
+    private BufferedImage createBig(final BufferedImage img) {
+	// Create quickly, then smooth and brighten it.
+	return resize(img, Method.SPEED, 1920, OP_ANTIALIAS, OP_BRIGHTER);
+    }
+
+    private BufferedImage createNormalImage(final BufferedImage img) {
+	// Create quickly, then smooth and brighten it.
+	return resize(img, Method.SPEED, 700, OP_ANTIALIAS, OP_BRIGHTER);
+    }
+
+    private BufferedImage createThumbnail(final BufferedImage img) {
+	// Create quickly, then smooth and brighten it.
+	return resize(img, Method.SPEED, 60, OP_ANTIALIAS, OP_BRIGHTER);
+    }
+
+    // public static final String ALBUM_PATH = "album";
+    //
+    // public static final String BIG_PATH = "big";
+    //
+    // public static final String THUMBS_PATH = "thumbs";
 
     //
     // private static String buildImageStorePath(final String qqfile,
@@ -108,20 +143,7 @@ public class PictureServiceJava {
     // return pathTargetFolderNormal;
     // }
     //
-    // public static BufferedImage createBig(final BufferedImage img) {
-    // // Create quickly, then smooth and brighten it.
-    // return resize(img, Method.SPEED, 1920, OP_ANTIALIAS, OP_BRIGHTER);
-    // }
-    //
-    // public static BufferedImage createNormalImage(final BufferedImage img) {
-    // // Create quickly, then smooth and brighten it.
-    // return resize(img, Method.SPEED, 700, OP_ANTIALIAS, OP_BRIGHTER);
-    // }
-    //
-    // public static BufferedImage createThumbnail(final BufferedImage img) {
-    // // Create quickly, then smooth and brighten it.
-    // return resize(img, Method.SPEED, 60, OP_ANTIALIAS, OP_BRIGHTER);
-    // }
+
     //
     // private static boolean extractEntry(final ZipFile zf, final ZipEntry
     // entry,
