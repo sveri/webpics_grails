@@ -8,7 +8,7 @@
 	<body>
 		<tmpl:albumLeftNav album="${album}" /> 
 
-		<input type="hidden" value="@albumId" id="albumId"/>
+		<input type="hidden" value="${album.id}" id="albumId"/>
 
 		<legend><g:message code="pix.album.album.upload.zip_imagefile_message" /></legend>
 		

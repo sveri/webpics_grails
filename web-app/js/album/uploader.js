@@ -12,7 +12,7 @@ $(document).ready(function() {
 		forceMultipart : true,
 		uploadButtonText : "Select Files",
 		// path to server-side upload script
-		action : 'jsupload/',
+		action : PROJECT_WEBROOT + 'album/jsupload/',
 		allowedExtensions : [ "jpg", "png", "gif", "zip" ],
 		onComplete : function(id, fileName, responseJSON){},
 		onSubmit: function() {

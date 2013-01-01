@@ -3,7 +3,7 @@ package webpics_grails
 class Album {
 	static hasMany = [photo:Photo]
 	
-	String name;
+	String name
 
     static constraints = {
 		name unique: true

@@ -20,7 +20,11 @@
 	
 	<title><g:layoutTitle default="Grails"/></title>
 	
-	<r:require modules="bootstrap"/>
+    <script type="text/javascript">
+    	PROJECT_WEBROOT = "${createLink(uri: '/')}";
+    </script>
+	
+	<r:require modules="bootstrap, application"/>
 	
 	<g:layoutHead/>
 	<r:layoutResources />

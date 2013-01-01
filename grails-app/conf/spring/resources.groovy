@@ -8,4 +8,6 @@ beans = {
 	    hashIterations=1024
 	    hashAlgorithmName=Sha512Hash.ALGORITHM_NAME
     } 
+	
+	pictureServiceJava(webpics_grails.PictureServiceJava)
 }
