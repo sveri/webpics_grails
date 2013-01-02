@@ -21,7 +21,26 @@ import javax.imageio.ImageIO;
 
 import org.imgscalr.Scalr.Method;
 
+import webpics_grails.pic.Album;
+
 public class PictureServiceJava {
+
+    public File saveInputStreamToTempFile(final InputStream is, final String fileName) throws Exception {
+	final File baseTempImageFile = Files.createTempFile(fileName, "webpics").toFile();
+
+	final OutputStream out = new FileOutputStream(baseTempImageFile.getAbsolutePath());
+	final byte[] buf = new byte[1024];
+	int len;
+
+	while ((len = is.read(buf)) > 0) {
+	    out.write(buf, 0, len);
+	}
+
+	out.close();
+	is.close();
+
+	return baseTempImageFile;
+    }
 
     public void createImageDirsIfNotExist(final String albumBasePath) throws IOException {
 

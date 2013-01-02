@@ -14,24 +14,11 @@ class PictureService {
 
 	pictureServiceJava.createImageDirsIfNotExist(albumBasePath)
 
-	File baseTempImageFile = Files.createTempFile(fileName, "webpics")
-
-	//	File baseImageFile = new File(albumBasePath + File.separator + fileName)
-	saveInputStreamToFile(baseTempImageFile, is)
+	File baseTempImageFile = pictureServiceJava.saveInputStreamToTempFile(is, fileName)
 
 	pictureServiceJava.resizeAndSaveImages(baseTempImageFile, albumBasePath, fileName)
     }
 
-    def saveInputStreamToFile(File baseImageFile, InputStream is) throws Exception{
-	OutputStream out=new FileOutputStream (baseImageFile.getAbsolutePath())
-	byte[] buf = new byte [1024]
-	int len
-
-	while((len=is.read(buf)) > 0) {
-	    out.write(buf,0,len)
-	}
-
-	out.close()
-	is.close()
+    def storePhotoInDb(String fileName, String albumId){
     }
 }

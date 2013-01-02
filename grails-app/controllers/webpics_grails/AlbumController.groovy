@@ -1,5 +1,7 @@
 package webpics_grails
 
+import webpics_grails.pic.Album;
+
 
 class AlbumController {
 
