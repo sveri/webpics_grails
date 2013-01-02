@@ -1,49 +1,62 @@
 package webpics_grails
 
-import webpics_grails.pic.Album;
+import webpics_grails.pic.Album
+
+import java.util.zip.ZipFile;
 
 
 class AlbumController {
 
-	static allowedMethods = [save: "POST", upload: "GET", index: "GET", album: "GET", jsupload: "POST"]
+    static allowedMethods = [save: "POST", upload: "GET", index: "GET", album: "GET", jsupload: "POST", zipupload: "POST"]
 //			static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
-	def pictureService
+    def pictureService
 
-	def album(){
-		[album: Album.get(params.id)]
-	}
+    def album() {
+        [album: Album.get(params.id)]
+    }
 
-	def upload(){
-		[album: Album.get(params.id)]
-	}
+    def upload() {
+        [album: Album.get(params.id)]
+    }
 
-	def index() {
-		def map = [albums: Album.listOrderByName(), albumForm: new Album()]
-		render(view: "index", model: map)
-	}
+    def index() {
+        def map = [albums: Album.listOrderByName(), albumForm: new Album()]
+        render(view: "index", model: map)
+    }
 
-	def save() {
-		def albumInstance = new Album(params)
-		if (!albumInstance.save(flush: true)) {
-			render(view: "index", model: [albums: Album.list(params), albumForm: albumInstance])
-			return
-		}
-
-		flash.message = message(code: 'default.created.message', args: [message(code: 'album.label', default: 'Album'), albumInstance.name])
-		redirect(action: "index", params: params)
-	}
-
-	// receive the files from js
-	def jsupload(){
-            try{
-                pictureService.storePicture(request.getInputStream(), params.albumid, params.qqfile)
-            } catch (all) {
-                render(status: response.SC_INTERNAL_SERVER_ERROR, text:"{success: false}")
-            }
-            render(status: response.SC_OK, text:"{success: true}")
+    def save() {
+        def albumInstance = new Album(params)
+        if (!albumInstance.save(flush: true)) {
+            render(view: "index", model: [albums: Album.list(params), albumForm: albumInstance])
             return
-	}
+        }
+
+        flash.message = message(code: 'default.created.message', args: [message(code: 'album.label', default: 'Album'), albumInstance.name])
+        redirect(action: "index", params: params)
+    }
+
+    // receive the files from js
+    def jsupload() {
+        try {
+            pictureService.storePicture(request.getInputStream(), params.albumid, params.qqfile)
+        } catch (all) {
+            render(status: response.SC_INTERNAL_SERVER_ERROR, text: "{success: false}")
+        }
+        render(status: response.SC_OK, text: "{success: true}")
+        return
+    }
+
+    def zipupload() {
+        def zipFile = new ZipFile(params.file_path)
+        try {
+            pictureService.storeZippedImages(zipFile)
+        }  catch (all){
+            flash.message = message(code: 'pix.something_went_wrong')
+        }
+        flash.message = message(code: 'pix.album.album.upload.zip_succeeded')
+        redirect(action: "upload", params: [id: "1"])
+    }
 
 //		def show(Long id) {
 //			def albumInstance = Album.get(id)
