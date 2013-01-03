@@ -8,7 +8,7 @@ class BootStrap {
 
     def init = { servletContext ->
 
-        if (User.count > 0) {
+        if (User.count == 0) {
             def adminRole = new Role(name: "Administrator")
             adminRole.addToPermissions("*:*")
             adminRole.save()

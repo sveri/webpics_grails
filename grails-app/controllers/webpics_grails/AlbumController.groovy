@@ -51,7 +51,7 @@ class AlbumController {
     }
 
     def zipupload() {
-        def zipFile = new ZipFile(params.file_path)
+        def zipFile = new ZipFile(params.file_path?.trim())
         try {
             pictureService.storeZippedImages(zipFile, params.albumid)
         }  catch (all){
