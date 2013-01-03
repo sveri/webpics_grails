@@ -79,7 +79,5 @@ class AuthController {
         ConfigUtils.removePrincipal(principal)
     }
 
-    def unauthorized = {
-        render "You do not have permission to access this page."
-    }
+    def unauthorized = {}
 }
