@@ -45,9 +45,9 @@ class AlbumController {
             pictureService.storePicture(request.getInputStream(), params.albumid, params.qqfile)
         } catch (all) {
             render(status: response.SC_INTERNAL_SERVER_ERROR, text: "{success: false}")
+            return
         }
         render(status: response.SC_OK, text: "{success: true}")
-        return
     }
 
     def zipupload() {
@@ -56,8 +56,8 @@ class AlbumController {
             pictureService.storeZippedImages(zipFile, params.albumid)
         }  catch (all){
             flash.message = message(code: 'pix.something_went_wrong')
-	    redirect(action: "upload", params: [id: params.albumid])
-	    return
+            redirect(action: "upload", params: [id: params.albumid])
+            return
         }
         flash.message = message(code: 'pix.album.album.upload.zip_succeeded')
         redirect(action: "upload", params: [id: params.albumid])

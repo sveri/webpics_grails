@@ -14,19 +14,19 @@
     <table>
       <tbody>
         <tr>
-          <td><g:message code="user.username.label" />:</td>
-          <td><input type="text" name="username" value="${username}" /></td>
+          <td><label for="username"><g:message code="user.username.label" />:</label></td>
+          <td><input id="username" type="text" name="username" value="${username}" /></td>
         </tr>
         <tr>
-          <td><g:message code="user.password.label" />:</td>
-          <td><input type="password" name="password" value="" /></td>
+          <td><label for="password"><g:message code="user.password.label" />:</label></td>
+          <td><input id="password" type="password" name="password" value="" /></td>
         </tr>
         <tr>
           <td><g:message code="user.remember_me" />:</td>
           <td><g:checkBox name="rememberMe" value="${rememberMe}" /></td>
         </tr>
         <tr>
-          <td />
+          <td></td>
           <td><br />
               <input type="submit" value="${message(code: 'pix.navigation.login')}" class="btn btn-primary"/></td>
         </tr>
