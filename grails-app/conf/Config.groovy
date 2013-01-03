@@ -11,7 +11,9 @@
 //    grails.config.locations << "file:" + System.properties["${appName}.config.location"]
 // }
 
-grails.config.locations = [ "file:${userHome}/.grails/${appName}-config.properties"]
+grails.config.locations = [ "classpath:pix-config.properties",
+                            "file:${userHome}/.pix/pix-config.properties",
+                            "file:${userHome}/.grails/pix-config.properties"]
 
 grails.project.groupId = appName // change this to alter the default package name and Maven publishing destination
 grails.mime.file.extensions = true // enables the parsing of file extensions from URLs into the request format
@@ -67,7 +69,7 @@ environments {
     }
     production {
         grails.logging.jul.usebridge = false
-        // TODO: grails.serverURL = "http://www.changeme.com"
+        // TODO: grails.serverURL = "http://pix.sveri.de"
     }
 }
 

@@ -2,7 +2,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta name="layout" content="main" />
-  <title>Login</title>
+  <title><g:message code="pix.navigation.login" /></title>
 </head>
 <body>
   <g:if test="${flash.message}">
@@ -14,20 +14,21 @@
     <table>
       <tbody>
         <tr>
-          <td>Username:</td>
+          <td><g:message code="user.username.label" />:</td>
           <td><input type="text" name="username" value="${username}" /></td>
         </tr>
         <tr>
-          <td>Password:</td>
+          <td><g:message code="user.password.label" />:</td>
           <td><input type="password" name="password" value="" /></td>
         </tr>
         <tr>
-          <td>Remember me?:</td>
+          <td><g:message code="user.remember_me" />:</td>
           <td><g:checkBox name="rememberMe" value="${rememberMe}" /></td>
         </tr>
         <tr>
           <td />
-          <td><input type="submit" value="Sign in" class="btn btn-primary"/></td>
+          <td><br />
+              <input type="submit" value="${message(code: 'pix.navigation.login')}" class="btn btn-primary"/></td>
         </tr>
       </tbody>
     </table>
