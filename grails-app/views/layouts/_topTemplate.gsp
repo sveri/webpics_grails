@@ -7,7 +7,7 @@
 	            <span class="icon-bar"></span>
           	</a> 
 			
-			<a class="brand" href="/"><g:message code="pix.index.title" /></a>
+			<a class="brand" href="${createLink(uri: '/') }"><g:message code="pix.index.title" /></a>
 			  
 			<div class="btn-group pull-right">
 				<shiro:isLoggedIn>

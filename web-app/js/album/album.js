@@ -2,7 +2,7 @@ $(document).ready(function() {
 
 	var value = 0;
 	
-	Galleria.loadTheme('/assets/javascripts/galleria/themes/classic/galleria.classic.min.js');
+	Galleria.loadTheme(GALLERIA_CLASSIC_THEME_LINK);
 	    var rotVal = 0;
 		
 		Galleria.ready(function() {

@@ -1,19 +1,22 @@
 package webpics_grails
 
 import webpics_grails.pic.Album
+import webpics_grails.pic.Photo;
 
 import java.util.zip.ZipFile;
+
+import com.google.common.io.Files;
 
 
 class AlbumController {
 
-    static allowedMethods = [save: "POST", upload: "GET", index: "GET", album: "GET", jsupload: "POST", zipupload: "POST"]
-//			static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+    static allowedMethods = [save: "POST", upload: "GET", index: "GET", album: "GET", jsupload: "POST", zipupload: "POST", getFile: "GET"]
 
     def pictureService
 
     def album() {
-        [album: Album.get(params.id)]
+	def album = Album.get(params.id)
+        [album: album, photos: Photo.findAllByAlbum(album)]
     }
 
     def upload() {
@@ -50,81 +53,25 @@ class AlbumController {
     def zipupload() {
         def zipFile = new ZipFile(params.file_path)
         try {
-            pictureService.storeZippedImages(zipFile)
+            pictureService.storeZippedImages(zipFile, params.albumid)
         }  catch (all){
             flash.message = message(code: 'pix.something_went_wrong')
+	    redirect(action: "upload", params: [id: params.albumid])
+	    return
         }
         flash.message = message(code: 'pix.album.album.upload.zip_succeeded')
-        redirect(action: "upload", params: [id: "1"])
+        redirect(action: "upload", params: [id: params.albumid])
     }
 
-//		def show(Long id) {
-//			def albumInstance = Album.get(id)
-//			if (!albumInstance) {
-//				flash.message = message(code: 'default.not.found.message', args: [message(code: 'album.label', default: 'Album'), id])
-//				redirect(action: "list")
-//				return
-//			}
-//
-//			[albumInstance: albumInstance]
-//		}
-//
-//		def edit(Long id) {
-//			def albumInstance = Album.get(id)
-//			if (!albumInstance) {
-//				flash.message = message(code: 'default.not.found.message', args: [message(code: 'album.label', default: 'Album'), id])
-//				redirect(action: "list")
-//				return
-//			}
-//
-//			[albumInstance: albumInstance]
-//		}
-//
-//		def update(Long id, Long version) {
-//			def albumInstance = Album.get(id)
-//			if (!albumInstance) {
-//				flash.message = message(code: 'default.not.found.message', args: [message(code: 'album.label', default: 'Album'), id])
-//				redirect(action: "list")
-//				return
-//			}
-//
-//			if (version != null) {
-//				if (albumInstance.version > version) {
-//					albumInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
-//							  [message(code: 'album.label', default: 'Album')] as Object[],
-//							  "Another user has updated this Album while you were editing")
-//					render(view: "edit", model: [albumInstance: albumInstance])
-//					return
-//				}
-//			}
-//
-//			albumInstance.properties = params
-//
-//			if (!albumInstance.save(flush: true)) {
-//				render(view: "edit", model: [albumInstance: albumInstance])
-//				return
-//			}
-//
-//			flash.message = message(code: 'default.updated.message', args: [message(code: 'album.label', default: 'Album'), albumInstance.id])
-//			redirect(action: "show", id: albumInstance.id)
-//		}
-//
-//		def delete(Long id) {
-//			def albumInstance = Album.get(id)
-//			if (!albumInstance) {
-//				flash.message = message(code: 'default.not.found.message', args: [message(code: 'album.label', default: 'Album'), id])
-//				redirect(action: "list")
-//				return
-//			}
-//
-//			try {
-//				albumInstance.delete(flush: true)
-//				flash.message = message(code: 'default.deleted.message', args: [message(code: 'album.label', default: 'Album'), id])
-//				redirect(action: "list")
-//			}
-//			catch (DataIntegrityViolationException e) {
-//				flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'album.label', default: 'Album'), id])
-//				redirect(action: "show", id: id)
-//			}
-//		}
+    def getFile(){
+    	def photo = Photo.get(params.photoid)
+	def file = new File(grailsApplication.config.pix.image_base_path + File.separator + photo.album.id
+	    + File.separator + params.size + File.separator + photo.name )
+	def img = file.bytes
+
+	response.contentType = 'image/' + Files.getFileExtension(photo.name) // or the appropriate image content type
+	response.outputStream << img
+	response.outputStream.flush()
+    }
+
 }

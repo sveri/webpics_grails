@@ -19,7 +19,7 @@
 		<br />
 
 		<p>
-		    <g:uploadForm action="zipupload">
+		    <g:form action="zipupload">
         		<input type="hidden" value="${album.id}" id="albumId" name="albumid"/>
 				<fieldset>
 					<legend><g:message code="pix.album.album.upload.local_path_message" /></legend>
@@ -28,7 +28,7 @@
 					<br />
 					<button type="submit" class="btn">Submit</button>
 				</fieldset>
-            </g:uploadForm>
+            </g:form>
 		</p>
 	</body>
 </html>

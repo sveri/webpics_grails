@@ -8,6 +8,7 @@ class Photo {
     Album album
 
     static constraints = {
-        name blank: false, null: false
+        name blank: false, null: false, unique: ['album']
+
     }
 }

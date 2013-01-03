@@ -18,6 +18,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import javax.imageio.ImageIO;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.imgscalr.Scalr.Method;
 
@@ -58,14 +59,17 @@ public class PictureServiceJava {
 
     public void resizeAndSaveImages(final File baseTempImageFile, final String albumBasePath, final String fileName)
 	    throws IOException {
+
+	final String fileExtension = com.google.common.io.Files.getFileExtension(fileName);
+
 	final BufferedImage imageOriginal = ImageIO.read(baseTempImageFile);
 	final BufferedImage thumbnail = createThumbnail(imageOriginal);
 	final BufferedImage normal = createNormalImage(imageOriginal);
 	final BufferedImage imageBig = createBig(imageOriginal);
 
-	ImageIO.write(imageBig, "jpg", getBigFile(albumBasePath, fileName));
-	ImageIO.write(thumbnail, "jpg", getThumbFile(albumBasePath, fileName));
-	ImageIO.write(normal, "jpg", getBaseFile(albumBasePath, fileName));
+	ImageIO.write(imageBig, fileExtension, getBigFile(albumBasePath, fileName));
+	ImageIO.write(thumbnail, fileExtension, getThumbFile(albumBasePath, fileName));
+	ImageIO.write(normal, fileExtension, getBaseFile(albumBasePath, fileName));
     }
 
     private File getBigFile(final String albumBasePath, final String fileName) {
