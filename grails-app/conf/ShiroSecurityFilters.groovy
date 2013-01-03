@@ -3,7 +3,59 @@
  * via access control by convention.
  */
 class ShiroSecurityFilters {
+//    static nonAuthenticatedActions = [
+//            [controller: 'home', action: 'index']
+//    ]
+//
+//    static authenticatedActions = [
+//            [controller: 'album', action: 'index', roles: ['User', 'Viewer']],
+//            [controller: 'album', action: 'album', roles: ['User', 'Viewer']]
+//    ]
+
     def filters = {
+
+//        all(controller: '*', action: '*') {
+//            before = {
+//
+//                // Determine if the controller/action belongs is not to be authenticated
+//                def needsAuth = !nonAuthenticatedActions.find {
+//                    (it.controller == controllerName) &&
+//                            ((it.action == '*') || (it.action == actionName))
+//                }
+//
+//                if (needsAuth) {
+//
+//                    // Get the map within the authenticated actions which pertain to the current
+//                    // controller and view.
+//                    def authRoles = authenticatedActions.find {
+//                        (it.controller == controllerName) &&
+//                                ((it.action == '*') || (it.action == actionName))
+//                    }
+//
+//                    if (authRoles) {
+//
+//                        // Perform the access control for each of the roles provided in the authRoles
+//                        accessControl {
+//                            authRoles.roles.each { roleName ->
+//                                role(roleName)
+//                            }
+//                        }
+//                    }
+//
+//                    // Skip authentication if the authRoles was not found
+//                    else {
+//                        return true
+//                    }
+//                }
+//
+//                // Skip authentication if no auth is needed
+//                else {
+//                    return true
+//                }
+//            }
+//        }
+
+
         all(uri: "/**") {
             before = {
                 // Ignore direct views (e.g. the default main index page).
