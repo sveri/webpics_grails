@@ -34,7 +34,7 @@
 
 <body>
 
-	<g:render template="/layouts/topTemplate" />
+	<g:render template="/shared/topTemplate" />
 
 	<div id="spinner" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Loading&hellip;"/></div>
 
@@ -54,11 +54,7 @@
 		</div>
 		<!--/row-->
 
-		<hr>
-
-		<footer>
-			<p>&copy; Sven Richter 2012</p>
-		</footer>
+        <g:render template="/shared/footer" />
 
 	</div>
 	<!--/.fluid-container-->
