@@ -77,10 +77,13 @@ class AlbumController {
     }
 
     def downloadAlbum() {
-        ZipOutputStream out = pictureService.compressAlbum(Album.get(params.id))
+	def album = Album.get(params.id)
+        def tempFileName = pictureService.compressAlbum(album)
+	def file = new File(tempFileName)
 
+	response.setHeader("Content-disposition", "attachment;filename=${album.id}.zip")
         response.contentType = 'application/zip'
-        response.outputStream << out.bytes
+        response.outputStream << file.bytes
         response.outputStream.flush()
     }
 }
