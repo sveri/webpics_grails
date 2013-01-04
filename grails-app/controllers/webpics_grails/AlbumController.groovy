@@ -1,11 +1,14 @@
 package webpics_grails
 
 import webpics_grails.pic.Album
-import webpics_grails.pic.Photo;
+import webpics_grails.pic.Photo
 
+import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import com.google.common.io.Files;
+import com.google.common.io.Files
+
+import java.util.zip.ZipOutputStream;
 
 
 class AlbumController {
@@ -15,7 +18,7 @@ class AlbumController {
     def pictureService
 
     def album() {
-	def album = Album.get(params.id)
+        def album = Album.get(params.id)
         [album: album, photos: Photo.findAllByAlbum(album)]
     }
 
@@ -54,7 +57,7 @@ class AlbumController {
         def zipFile = new ZipFile(params.file_path?.trim())
         try {
             pictureService.storeZippedImages(zipFile, params.albumid)
-        }  catch (all){
+        } catch (all) {
             flash.message = message(code: 'pix.something_went_wrong')
             redirect(action: "upload", params: [id: params.albumid])
             return
@@ -63,19 +66,21 @@ class AlbumController {
         redirect(action: "upload", params: [id: params.albumid])
     }
 
-    def getFile(){
-    	def photo = Photo.get(params.photoid)
-	def file = new File(grailsApplication.config.pix.image_base_path + File.separator + photo.album.id
-	    + File.separator + params.size + File.separator + photo.name )
-	def img = file.bytes
+    def getFile() {
+        def photo = Photo.get(params.photoid)
+        def file = new File(pictureService.getFilePath(photo.album.id.toString(), photo.name, params.size))
+        def img = file.bytes
 
-	response.contentType = 'image/' + Files.getFileExtension(photo.name) // or the appropriate image content type
-	response.outputStream << img
-	response.outputStream.flush()
+        response.contentType = 'image/' + Files.getFileExtension(photo.name)
+        response.outputStream << img
+        response.outputStream.flush()
     }
 
     def downloadAlbum() {
-        def photos = Photo.findAllByAlbum(Album.get(params.albumid))
-    }
+        ZipOutputStream out = pictureService.compressAlbum(Album.get(params.id))
 
+        response.contentType = 'application/zip'
+        response.outputStream << out.bytes
+        response.outputStream.flush()
+    }
 }

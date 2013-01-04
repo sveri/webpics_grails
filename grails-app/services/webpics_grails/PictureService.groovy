@@ -1,5 +1,6 @@
 package webpics_grails
 
+import java.nio.file.Files
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
 
@@ -7,12 +8,36 @@ import webpics_grails.pic.Album
 import webpics_grails.pic.Photo
 
 import java.util.zip.ZipInputStream
+import java.util.zip.ZipOutputStream
 
 class PictureService {
 
     def grailsApplication
 
     def pictureServiceJava
+
+    def compressAlbum(Album album){
+        def photos = Photo.findAllByAlbum(album)
+
+        File baseTempImageFile = Files.createTempFile(album.id.toString(), "pix").toFile();
+        ZipOutputStream out = new ZipOutputStream(new FileOutputStream(baseTempImageFile));
+
+        for (photo in photos) {
+            FileInputStream fis = new FileInputStream(getFilePath(album.id.toString(), photo.name, "big"));
+
+            out.putNextEntry(new ZipEntry(photo.name));
+
+            byte[] b = new byte[1024];
+
+            int count;
+
+            while ((count = fis.read(b)) > 0) {
+                out.write(b, 0, count);
+            }
+            fis.close();
+        }
+        return out
+    }
 
     def storeZippedImages(ZipFile zipFile, String albumId) throws Exception {
         Enumeration<ZipEntry> e = zipFile.entries()
@@ -31,7 +56,7 @@ class PictureService {
 
     def storePicture(InputStream is, String albumId, String fileName) throws Exception {
 
-        def albumBasePath = grailsApplication.config.pix.image_base_path + File.separator + albumId
+        def albumBasePath = getAlbumBasePath(albumId)
 
         pictureServiceJava.createImageDirsIfNotExist(albumBasePath)
 
@@ -43,5 +68,13 @@ class PictureService {
 
     def storePhotoInDb(String fileName, String albumId) {
         new Photo(album: Album.get(albumId), name: fileName).save()
+    }
+
+    def getAlbumBasePath(String albumId){
+        return grailsApplication.config.pix.image_base_path + File.separator + albumId
+    }
+
+    def getFilePath(String albumId, String fileName, String size) {
+        return grailsApplication.config.pix.image_base_path + File.separator + albumId + File.separator + size + File.separator + fileName
     }
 }

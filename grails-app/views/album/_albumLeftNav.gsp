@@ -6,6 +6,9 @@
 	       	<shiro:hasAnyRole in="['Administrator', 'User']">
 				<li><g:link action="upload" id="${album.id}"><g:message code="pix.navigation.albums.upload" /></g:link></li>
 			</shiro:hasAnyRole>
+            <shiro:hasAnyRole in="['Administrator', 'User', 'Viewer']">
+                <li><g:link action="downloadAlbum" id="${album.id}"><g:message code="pix.navigation.albums.download" /></g:link></li>
+            </shiro:hasAnyRole>
 		</ul>
 	</div>
 </content>
