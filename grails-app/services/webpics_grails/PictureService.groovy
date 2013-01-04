@@ -1,9 +1,12 @@
 package webpics_grails
 
+import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
 
 import webpics_grails.pic.Album
 import webpics_grails.pic.Photo
+
+import java.util.zip.ZipInputStream
 
 class PictureService {
 
@@ -11,25 +14,34 @@ class PictureService {
 
     def pictureServiceJava
 
-    def storeZippedImages(ZipFile zipFile, String albumId) throws Exception{
-	zipFile.entries().each {
-	    storePicture(zipFile.getInputStream(it), albumId, it.name)
-	}
+    def storeZippedImages(ZipFile zipFile, String albumId) throws Exception {
+        Enumeration<ZipEntry> e = zipFile.entries()
+
+        while(e.hasMoreElements()){
+            ZipEntry entry = (ZipEntry) e.nextElement()
+            if(entry.isDirectory())
+            {
+                continue;
+            }
+            def fileName = entry.getName()
+            fileName = fileName.substring(fileName.lastIndexOf('/') + 1)
+            storePicture(zipFile.getInputStream(entry), albumId, fileName)
+        }
     }
 
     def storePicture(InputStream is, String albumId, String fileName) throws Exception {
 
-	def albumBasePath = grailsApplication.config.pix.image_base_path + File.separator + albumId
+        def albumBasePath = grailsApplication.config.pix.image_base_path + File.separator + albumId
 
-	pictureServiceJava.createImageDirsIfNotExist(albumBasePath)
+        pictureServiceJava.createImageDirsIfNotExist(albumBasePath)
 
-	File baseTempImageFile = pictureServiceJava.saveInputStreamToTempFile(is, fileName)
+        File baseTempImageFile = pictureServiceJava.saveInputStreamToTempFile(is, fileName)
 
-	pictureServiceJava.resizeAndSaveImages(baseTempImageFile, albumBasePath, fileName)
-	storePhotoInDb(fileName, albumId)
+        pictureServiceJava.resizeAndSaveImages(baseTempImageFile, albumBasePath, fileName)
+        storePhotoInDb(fileName, albumId)
     }
 
     def storePhotoInDb(String fileName, String albumId) {
-	new Photo(album: Album.get(albumId), name: fileName).save()
+        new Photo(album: Album.get(albumId), name: fileName).save()
     }
 }
