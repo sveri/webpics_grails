@@ -74,4 +74,8 @@ class AlbumController {
 	response.outputStream.flush()
     }
 
+    def downloadAlbum() {
+        def photos = Photo.findAllByAlbum(Album.get(params.albumid))
+    }
+
 }
