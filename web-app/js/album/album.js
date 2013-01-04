@@ -6,7 +6,11 @@ $(document).ready(function() {
 	    var rotVal = 0;
 		
 		Galleria.ready(function() {
-		    var gallery = this; 
+		    var gallery = this;
+		    
+		    this.bind("image", function(e) {
+		        rotVal = 0;
+		    });
 			
 	        gallery.attachKeyboard({
 	            left: function(){

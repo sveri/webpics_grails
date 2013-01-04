@@ -70,8 +70,13 @@ class AlbumController {
         def photo = Photo.get(params.photoid)
         def file = new File(pictureService.getFilePath(photo.album.id.toString(), photo.name, params.size))
         def img = file.bytes
+	def fileExtension = Files.getFileExtension(photo.name)
 
-        response.contentType = 'image/' + Files.getFileExtension(photo.name)
+	if(fileExtension ==~ "(?i)jpg"){
+	    fileExtension = "jpeg"
+	}
+
+	response.setHeader("Content-Type", 'image/' + fileExtension)
         response.outputStream << img
         response.outputStream.flush()
     }
