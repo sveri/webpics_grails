@@ -3,7 +3,6 @@
 <html>
 <head>
     <title><g:message code="pix.error" /></title>
-    <meta name="layout" content="main" />
 </head>
 
 <body>
