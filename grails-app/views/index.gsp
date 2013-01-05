@@ -10,7 +10,7 @@
 			<shiro:isNotLoggedIn>
 				<p><g:message code="pix.index.intro_2" /></p>
 				
-  				<tmpl:loginForm />
+  				<g:render template="/auth/loginForm" />
 			</shiro:isNotLoggedIn>
 		</div>
 	</body>
