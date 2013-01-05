@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta name="layout" content="main">
-		<title><g:message code="pix.navigation.user.overview" /></title>
+		<title><g:message code="pix.navigation.rights.nav_header" /></title>
 	</head>
 	<body>
 		<tmpl:userLeftNav />

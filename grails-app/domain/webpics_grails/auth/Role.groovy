@@ -1,18 +1,16 @@
 package webpics_grails.auth
 
+import webpics_grails.pic.Album
+
 class Role {
     String name
 
-    static hasMany = [ users: User, permissions: String ]
+    static hasMany = [ users: User, permissions: String, albums:  Album ]
     static belongsTo = User
 
     static constraints = {
 	name(nullable: false, blank: false, unique: true)
     }
-
-    //    def getPermissions() {
-    //	return permissions
-    //    }
 
     String toString(){
 	return name
