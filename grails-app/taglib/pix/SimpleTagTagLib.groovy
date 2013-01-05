@@ -7,8 +7,7 @@ class SimpleTagTagLib {
      * <br>
      * used for the navigation bar to indicate an active link
      */
-    def activeContLink = {
-	attrs, body ->
+    def activeContLink = { attrs, body ->
 	out << body() << (attrs.controller == pageScope.controllerName ? "active" : "")
     }
 
@@ -20,10 +19,9 @@ class SimpleTagTagLib {
      * <br>
      * used for the navigation bar to indicate an active link
      */
-    def activeContActLink = {
-	attrs, body ->
+    def activeContActLink = { attrs, body ->
 	out << body() << ( (attrs.controller == pageScope.controllerName
-	&& attrs.action == pageScope.actionName) ? "active" : "")
+		&& attrs.action == pageScope.actionName) ? "active" : "")
     }
 
     /**

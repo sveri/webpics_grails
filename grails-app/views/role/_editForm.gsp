@@ -5,7 +5,5 @@
 
 <fieldset class="form">
 	<f:field bean="role" property="name"/>
-<%--	<f:field bean="role" property="permissionsString"/>--%>
-
 	<g:permissionSelect name="permissions" size="10" value="${role?.permissions}"/>
 </fieldset>
