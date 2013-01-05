@@ -14,11 +14,9 @@ $(document).ready(function() {
 			
 	        gallery.attachKeyboard({
 	            left: function(){
-	            	rotVal = 0;
 	            	gallery.prev();
 	            },
 	            right: function() {
-	            	rotVal = 0; 
 	            	gallery.next();
 				},
 	            up: function(){
