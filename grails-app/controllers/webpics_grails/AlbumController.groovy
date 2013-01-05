@@ -3,17 +3,18 @@ package webpics_grails
 import webpics_grails.pic.Album
 import webpics_grails.pic.Photo
 
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
+import java.util.zip.ZipEntry
+import java.util.zip.ZipFile
 
 import com.google.common.io.Files
 
-import java.util.zip.ZipOutputStream;
+import java.util.zip.ZipOutputStream
 
 
 class AlbumController {
 
-    static allowedMethods = [save: "POST", upload: "GET", index: "GET", album: "GET", jsupload: "POST", zipupload: "POST", getFile: "GET"]
+    static allowedMethods = [save: "POST", upload: "GET", upload: ["POST", "GET"],
+	album: "GET", jsupload: "POST", zipupload: "POST", getFile: "GET"]
 
     def pictureService
 
@@ -23,7 +24,11 @@ class AlbumController {
     }
 
     def upload() {
-        [album: Album.get(params.id)]
+//	if (request.xhr) {
+//	    render template: "albumUpload", model: [album: Album.get(params.id)]
+//	} else {
+//	}
+	[album: Album.get(params.id)]
     }
 
     def index() {

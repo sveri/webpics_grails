@@ -9,6 +9,8 @@
 			<h1><g:message code="pix.index.intro" /></h1>
 			<shiro:isNotLoggedIn>
 				<p><g:message code="pix.index.intro_2" /></p>
+				
+  				<tmpl:loginForm />
 			</shiro:isNotLoggedIn>
 		</div>
 	</body>

@@ -45,7 +45,7 @@
                 <g:pageProperty name="page.navbar" />
 
 			<div class="content fixed-fixed">
-				<div class="content-container">
+				<div class="content-container" id="mainContent">
 					<g:layoutBody/>
 				
 				</div>

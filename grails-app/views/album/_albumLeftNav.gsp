@@ -10,7 +10,8 @@
 			
 	       	<shiro:hasPermission permission="album:upload">
 				<li class="${activeContActLink(controller: 'album', action:'upload') }">
-					<g:link action="upload" id="${album.id}"><g:message code="pix.navigation.albums.upload" /></g:link></li>
+					<g:link action="upload" id="${album.id}"><g:message code="pix.navigation.albums.upload" /></g:link>
+				</li>
 			</shiro:hasPermission>
             <shiro:hasPermission permission="album:downloadAlbum">
                 <li class="${activeContActLink(controller: 'album', action:'downloadAlbum') }">
