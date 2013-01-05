@@ -7,10 +7,14 @@ class Role {
     static belongsTo = User
 
     static constraints = {
-        name(nullable: false, blank: false, unique: true)
+	name(nullable: false, blank: false, unique: true)
     }
-	
-	String toString(){
-		return name
-	}
+
+    //    def getPermissions() {
+    //	return permissions
+    //    }
+
+    String toString(){
+	return name
+    }
 }
