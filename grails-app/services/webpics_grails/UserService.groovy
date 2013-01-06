@@ -13,9 +13,12 @@ class UserService {
 	def retVal = false
 
 	for (role in user.roles){
-	    if(role.albums.contains(album)){
-		retVal = true
-		break
+	    for(rAlbum in role.albums){
+
+    	    	if(rAlbum.id == album.id){
+                    retVal = true
+                    break
+		}
 	    }
 	}
 
