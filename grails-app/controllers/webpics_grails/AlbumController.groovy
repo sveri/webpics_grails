@@ -18,12 +18,15 @@ class AlbumController {
 	album: "GET", jsupload: "POST", zipupload: "POST", getFile: "GET"]
 
     def pictureService
+    def userService
 
     def album() {
-        if (User.isAllowed(params.id)){
-            def album = Album.get(params.id)
-            [album: album, photos: Photo.findAllByAlbum(album)]
+        if (!userService.isUserAllowedToSeeAlbum(params.id)){
+	    redirect(controller: "auth", action: 'unauthorized')
+	    return
         }
+        def album = Album.get(params.id)
+        [album: album, photos: Photo.findAllByAlbum(album)]
     }
 
     def upload() {
@@ -35,8 +38,7 @@ class AlbumController {
     }
 
     def index() {
-        def map = [albums: Album.listOrderByName(), albumForm: new Album()]
-        render(view: "index", model: map)
+        [albums: userService.listAllAlbumsUserIsAllowedToSee(), albumForm: new Album()]
     }
 
     def save() {
@@ -76,13 +78,19 @@ class AlbumController {
 
     def getFile() {
         def photo = Photo.get(params.photoid)
+
+	if(!userService.isUserAllowedToSeeAlbum(photo.album.id.toString())){
+	    redirect(controller: "auth", action: 'unauthorized')
+	    return
+	}
+
         def file = new File(pictureService.getFilePath(photo.album.id.toString(), photo.name, params.size))
         def img = file.bytes
 	def fileExtension = Files.getFileExtension(photo.name)
 
-	if(fileExtension ==~ "(?i)jpg"){
+        if(fileExtension ==~ "(?i)jpg"){
 	    fileExtension = "jpeg"
-	}
+        }
 
 	response.setHeader("Content-Type", 'image/' + fileExtension)
         response.outputStream << img
