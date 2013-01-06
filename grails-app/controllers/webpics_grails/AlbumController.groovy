@@ -1,5 +1,6 @@
 package webpics_grails
 
+import webpics_grails.auth.User
 import webpics_grails.pic.Album
 import webpics_grails.pic.Photo
 
@@ -19,8 +20,10 @@ class AlbumController {
     def pictureService
 
     def album() {
-        def album = Album.get(params.id)
-        [album: album, photos: Photo.findAllByAlbum(album)]
+        if (User.isAllowed(params.id)){
+            def album = Album.get(params.id)
+            [album: album, photos: Photo.findAllByAlbum(album)]
+        }
     }
 
     def upload() {

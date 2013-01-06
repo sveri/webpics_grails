@@ -8,6 +8,8 @@ class Role {
     static hasMany = [ users: User, permissions: String, albums:  Album ]
     static belongsTo = User
 
+    static mapping = {sort: "name"}
+
     static constraints = {
 	name(nullable: false, blank: false, unique: true)
     }
