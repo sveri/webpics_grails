@@ -19,6 +19,7 @@ The following features are currently available.
 * Authorization is handled via Apache Shiro
 * Add, delete and edit users
 * Add, delete and edit roles
+* Add or delete users to roles
 * Detailed management of access rights in form of controller:action for every role
 * Allow/Disallow album views on a role basis
 
