@@ -2,12 +2,17 @@ package webpics_grails
 
 import org.apache.shiro.SecurityUtils
 
+import webpics_grails.auth.Role.ROLES
 import webpics_grails.auth.User
 import webpics_grails.pic.Album
 
 class UserService {
 
     def isUserAllowedToSeeAlbum(String albumId){
+	if(SecurityUtils.subject.hasRole(ROLES.Administrator.toString())){
+	    return true
+	}
+
 	def album = Album.get(albumId)
 	def user = getLoggedInUser()
 	def retVal = false
@@ -26,6 +31,10 @@ class UserService {
     }
 
     def listAllAlbumsUserIsAllowedToSee(){
+	if(SecurityUtils.subject.hasRole(ROLES.Administrator.toString())){
+	    return Album.all
+	}
+
 	def user = getLoggedInUser()
 	def albums = []
 

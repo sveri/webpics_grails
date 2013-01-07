@@ -11,8 +11,12 @@ import com.google.common.io.Files
 
 import java.util.zip.ZipOutputStream
 
+import org.apache.shiro.SecurityUtils
+
 
 class AlbumController {
+
+    def albumService
 
     static allowedMethods = [save: "POST", upload: "GET", upload: ["POST", "GET"],
 	album: "GET", jsupload: "POST", zipupload: "POST", getFile: "GET"]
@@ -47,6 +51,8 @@ class AlbumController {
             render(view: "index", model: [albums: Album.list(params), albumForm: albumInstance])
             return
         }
+
+	albumService.addAlbumToLoggedInUserRoles(albumInstance)
 
         flash.message = message(code: 'default.created.message', args: [message(code: 'album.label', default: 'Album'), albumInstance.name])
         redirect(action: "index", params: params)

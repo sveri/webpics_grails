@@ -12,36 +12,37 @@ hibernate {
 // environment specific settings
 environments {
     development {
-        dataSource {
-		    pooled = true
-		    dbCreate = "update"
-		    url = "jdbc:mysql://localhost/pix_grails"
-		    driverClassName = "com.mysql.jdbc.Driver"
-		    username = "root"
-		    password = "zzzzzz"
-        }
+	dataSource {
+	    pooled = true
+	    dbCreate = "update"
+	    url = "jdbc:mysql://localhost/pix_grails"
+	    driverClassName = "com.mysql.jdbc.Driver"
+	    username = "root"
+	    password = "zzzzzz"
+	}
     }
     test {
 
-        dataSource {
-            dbCreate = "update"
-            url = "jdbc:h2:mem:testDb;MVCC=TRUE;LOCK_TIMEOUT=10000"
-        }
+	dataSource {
+	    dbCreate = "update"
+	    url = "jdbc:h2:mem:testDb;MVCC=TRUE;LOCK_TIMEOUT=10000"
+	}
     }
     production {
-        dataSource {
-//            url = "jdbc:h2:prodDb;MVCC=TRUE;LOCK_TIMEOUT=10000"
-//            pooled = true
-            properties {
-               maxActive = -1
-               minEvictableIdleTimeMillis=1800000
-               timeBetweenEvictionRunsMillis=1800000
-               numTestsPerEvictionRun=3
-               testOnBorrow=true
-               testWhileIdle=true
-               testOnReturn=true
-               validationQuery="SELECT 1"
-            }
-        }
+	dataSource {
+	    //            url = "jdbc:h2:prodDb;MVCC=TRUE;LOCK_TIMEOUT=10000"
+	    //            pooled = true
+	    dbCreate = "update"
+	    properties {
+		maxActive = -1
+		minEvictableIdleTimeMillis=1800000
+		timeBetweenEvictionRunsMillis=1800000
+		numTestsPerEvictionRun=3
+		testOnBorrow=true
+		testWhileIdle=true
+		testOnReturn=true
+		validationQuery="SELECT 1"
+	    }
+	}
     }
 }
