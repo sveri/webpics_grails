@@ -12,7 +12,7 @@ class UserController {
 	static allowedMethods = [save: "POST", update: "POST", delete: "POST", changePassword: "POST"]
 
 	def index() {
-		[users: User.list(params)]
+		[users: User.findAll(sort: "username")]
 	}
 
 	def create() {

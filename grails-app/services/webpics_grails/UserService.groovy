@@ -32,7 +32,7 @@ class UserService {
 
     def listAllAlbumsUserIsAllowedToSee(){
 	if(SecurityUtils.subject.hasRole(ROLES.Administrator.toString())){
-	    return Album.all
+	    return Album.findAll(sort: "name")
 	}
 
 	def user = getLoggedInUser()
@@ -43,7 +43,7 @@ class UserService {
 		albums.add(album)
 	    }
 	}
-	return albums
+	return albums.sort()
     }
 
     def getLoggedInUser(){

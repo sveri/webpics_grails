@@ -48,7 +48,7 @@ class AlbumController {
     def save() {
         def albumInstance = new Album(params)
         if (!albumInstance.save(flush: true)) {
-            render(view: "index", model: [albums: Album.list(params), albumForm: albumInstance])
+            render(view: "index", model: [albums: Album.findAll(sort: "name"), albumForm: albumInstance])
             return
         }
 

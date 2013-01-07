@@ -5,22 +5,22 @@ import webpics_grails.pic.Album
 class RoleController {
 
     def index() {
-	[roles: Role.all]
+	[roles: Role.findAll(sort: "name")]
     }
 
     def add() {
-	    [role: new Role(), albums: Album.all]
+	    [role: new Role(), albums: Album.findAll(sort: "name")]
     }
 
     def edit() {
-	    [role: Role.get(params.id), albums: Album.all]
+	    [role: Role.get(params.id), albums: Album.findAll(sort: "name")]
     }
 
     def save() {
         def role = new Role(params)
         if(!role.save()){
             flash.message = message(code: 'pix.save.wrong')
-            render(view: "add", model: [role: role, albums: Album.all])
+            render(view: "add", model: [role: role, albums: Album.findAll(sort: "name")])
             return
         }
         redirect(action: 'index')
@@ -48,7 +48,7 @@ class RoleController {
         role.properties = params
 
         if (!role.save(flush: true)) {
-            render(view: "edit", model: [role: role, albums: Album.all])
+            render(view: "edit", model: [role: role, albums: Album.findAll(sort: "name")])
             flash.message = message(code: 'pix.save.wrong')
             return
         }
