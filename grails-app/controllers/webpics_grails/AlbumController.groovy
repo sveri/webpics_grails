@@ -1,20 +1,17 @@
 package webpics_grails
 
-import webpics_grails.auth.User
+import org.apache.commons.logging.LogFactory
 import webpics_grails.pic.Album
 import webpics_grails.pic.Photo
 
-import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
 
 import com.google.common.io.Files
 
-import java.util.zip.ZipOutputStream
-
-import org.apache.shiro.SecurityUtils
-
 
 class AlbumController {
+
+    private static final log = LogFactory.getLog(this)
 
     def albumService
 
@@ -42,7 +39,14 @@ class AlbumController {
     }
 
     def index() {
-        [albums: userService.listAllAlbumsUserIsAllowedToSee(), albumForm: new Album()]
+        def albums
+        try{
+            albums = userService.listAllAlbumsUserIsAllowedToSee()
+        }catch(Exception e){
+            albums = []
+            log.error(e)
+        }
+        [albums: albums, albumForm: new Album()]
     }
 
     def save() {
