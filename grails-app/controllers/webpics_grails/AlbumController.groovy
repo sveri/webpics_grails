@@ -42,9 +42,9 @@ class AlbumController {
         def albums
         try{
             albums = userService.listAllAlbumsUserIsAllowedToSee()
-        }catch(Exception e){
+        }catch(e){
             albums = []
-            log.error(e)
+        	    log.error(e)
         }
         [albums: albums, albumForm: new Album()]
     }
@@ -53,10 +53,15 @@ class AlbumController {
         def albumInstance = new Album(params)
         if (!albumInstance.save(flush: true)) {
             render(view: "index", model: [albums: Album.findAll(sort: "name"), albumForm: albumInstance])
+	    log.error("action: save - error while trying to save an album");
             return
         }
 
-	albumService.addAlbumToLoggedInUserRoles(albumInstance)
+	try{
+	    albumService.addAlbumToLoggedInUserRoles(albumInstance)
+        }catch(e){
+    	    log.error(e)
+        }
 
         flash.message = message(code: 'default.created.message', args: [message(code: 'album.label', default: 'Album'), albumInstance.name])
         redirect(action: "index", params: params)
@@ -66,7 +71,8 @@ class AlbumController {
     def jsupload() {
         try {
             pictureService.storePicture(request.getInputStream(), params.albumid, params.qqfile)
-        } catch (all) {
+        } catch (e) {
+	    log.error(e)
             render(status: response.SC_INTERNAL_SERVER_ERROR, text: "{success: false}")
             return
         }
@@ -77,7 +83,8 @@ class AlbumController {
         def zipFile = new ZipFile(params.file_path?.trim())
         try {
             pictureService.storeZippedImages(zipFile, params.albumid)
-        } catch (all) {
+        } catch (e) {
+	    log.error(e)
             flash.message = message(code: 'pix.something_went_wrong')
             redirect(action: "upload", params: [id: params.albumid])
             return
@@ -90,6 +97,7 @@ class AlbumController {
         def photo = Photo.get(params.photoid)
 
 	if(!userService.isUserAllowedToSeeAlbum(photo.album.id.toString())){
+	    log.error("action: getFile() - something went wrong while trying to get an image")
 	    redirect(controller: "auth", action: 'unauthorized')
 	    return
 	}
@@ -109,8 +117,12 @@ class AlbumController {
 
     def downloadAlbum() {
 	def album = Album.get(params.id)
-        def tempFileName = pictureService.compressAlbum(album)
-	def file = new File(tempFileName)
+	def file
+	try{
+	    file = new File(pictureService.compressAlbum(album))
+        }catch(e){
+       	    log.error(e)
+        }
 
 	response.setHeader("Content-disposition", "attachment;filename=${album.id}.zip")
         response.contentType = 'application/zip'

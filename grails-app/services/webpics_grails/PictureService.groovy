@@ -75,6 +75,10 @@ class PictureService {
     }
 
     def getFilePath(String albumId, String fileName, String size) {
-	return grailsApplication.config.pix.image_base_path + File.separator + albumId + File.separator + size + File.separator + fileName
+	def retVal = grailsApplication.config.pix.image_base_path + File.separator
+	retVal += albumId ? albumId + File.separator : ""
+	retVal += size ? size + File.separator : ""
+	retVal += fileName ? fileName : ""
+	return retVal
     }
 }
