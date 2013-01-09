@@ -49,5 +49,17 @@ pix.image_base_path=/path/to/where/the/pictures/shall/be/stored
 pix.copyright_notice=copyright notice
 ```
 
+## Feature History
+See all features as they came in
+
+### 0.2.1
+* added a bit logging
+* Administrator can see all albums
+* If a new user adds an album his groups gain the right to see that album
+
+### 0.2 
+* assing albums to groups
+* as a user i want to see the login form on the index page 
+
 
 

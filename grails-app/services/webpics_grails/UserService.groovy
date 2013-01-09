@@ -2,7 +2,6 @@ package webpics_grails
 
 import org.apache.shiro.SecurityUtils
 import webpics_grails.auth.Role
-import webpics_grails.auth.Role.ROLES
 import webpics_grails.auth.User
 import webpics_grails.pic.Album
 
