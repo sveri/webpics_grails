@@ -11,7 +11,7 @@ import org.junit.*
 @TestFor(UserService)
 class UserServiceTests {
 
-    void testSomething() {
-        fail "Implement me"
+    void testAdminShouldBeAllowedToSeeAllAlbums() {
+        def admin = new User()
     }
 }
