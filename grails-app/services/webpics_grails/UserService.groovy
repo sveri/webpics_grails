@@ -14,6 +14,7 @@ class UserService {
 
 	def album = Album.get(albumId)
 	def user = getLoggedInUser()
+	println user
 	def retVal = false
 
 	for (role in user.roles){

@@ -1,23 +1,19 @@
 package webpics_grails
 
-import static org.junit.Assert.*
-
-import grails.test.mixin.*
 import grails.test.mixin.support.*
 
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
-import org.junit.*
+import org.apache.shiro.SecurityUtils
 
-import webpics_grails.auth.Role;
+import webpics_grails.auth.Role
 import webpics_grails.auth.User
+import webpics_grails.pic.Album
 
 /**
  * See the API for {@link grails.test.mixin.support.GrailsUnitTestMixin} for usage instructions
  */
 @TestMixin(GrailsUnitTestMixin)
 @TestFor(UserService)
-@Mock([User, Role])
+@Mock([User, Role, Album])
 class UserServiceTest {
 
     def userService
@@ -31,49 +27,44 @@ class UserServiceTest {
 	//	secUtil.demand.static.getSubject {-> [login: {authToken -> true}] }
     }
 
-    void tearDown() {
-	// Tear down logic here
+
+    //    @Test
+    void testAdminIsAllowedToSeeEveryAlbum() {
+
+	secUtil.demand.static.getSubject(1..2) {
+	    -> [hasRole: { String -> true }]
+	}
+
+	assert userService.isUserAllowedToSeeAlbum("")
+	assert userService.isUserAllowedToSeeAlbum("5")
     }
 
     @Test
-    void testSomething() {
+    void testIsAllowedToSeeHisAlbum() {
 	def user = new User(
-	username: "Admin",
+	username: "sveri",
 	roles: [
-	    new Role(name: "Administrator")
+	    new Role(name: "User")
 	],
 	passwordHash: "aslkfd",
 	passwordSalt: "alskfj"
 	).save(validate: false)
 
-	secUtil.demand.static.getSubject {
-	    -> [hasRole: {
-		   String -> true
-		}]
+	def album = new Album(name: "bla", id: 1).save(validate: false)
+
+	secUtil.demand.static.getSubject(1..99) { -> [hasRole: { String -> false }
+	    , getPrincipal: {-> "sveri"}
+	    ]
 	}
+	//	secUtil.demand.static.getSubject { -> [principal: { -> "sveri"} ]}
 
-	//        secUtil.demand.static.getSubject.hasRole { String role -> return "sdf" }
+	assert userService.isUserAllowedToSeeAlbum("1")
 
-	//	    def subject = mockFor(Subject)
-	//	    subject.demand.hasRole {String role -> null}
-	//	    secUtil.demand.static.getSubject.hasRole {-> null }
-
-	//	def mockSubject = [
-	//	    	hasRole {
-	//			return true
-	//		    }
-	//	    ] as Subject
-	//	secUtil.hasRole("") {-> true }
-
-	//	    def mockSecurityUtils = [
-	//		hasRole: { role ->
-	//		    hasRoleCalled = true
-	//		    Assert.assertEquals("Incorrect role checked.", "Observer", role)
-	//		    return false
-	//		}
-	//	    ] as SecurityUtils
+    }
 
 
-	assert userService.isUserAllowedToSeeAlbum("5")
+
+    void tearDown() {
+	// Tear down logic here
     }
 }
