@@ -12,7 +12,7 @@ grails.project.dependency.resolution = {
 	// specify dependency exclusions here; for example, uncomment this to disable ehcache:
 	// excludes 'ehcache'
     }
-    log "error" // log level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
+    log "warn" // log level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
     checksums true // Whether to verify checksums on resolve
 
     repositories {
@@ -37,6 +37,8 @@ grails.project.dependency.resolution = {
 	// runtime 'mysql:mysql-connector-java:5.1.20'
 	runtime 'imgscalr:imgscalr-lib:4.2'
 	runtime 'com.google.guava:guava:14.0-rc1'
+
+	test "org.spockframework:spock-grails-support:0.7-groovy-2.0"
     }
 
     plugins {
@@ -54,5 +56,9 @@ grails.project.dependency.resolution = {
 	runtime ":database-migration:1.1"
 
 	compile ':cache:1.0.0'
+
+	test ':fixtures:1.2'
+	test ':build-test-data:2.0.3'
+	test(":spock:0.7") { exclude "spock-grails-support" }
     }
 }
