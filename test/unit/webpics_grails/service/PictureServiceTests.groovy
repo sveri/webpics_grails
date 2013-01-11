@@ -1,11 +1,12 @@
 
-package webpics_grails
+package webpics_grails.service
 
 
 
 import grails.test.mixin.*
 import org.junit.*
 
+import webpics_grails.PictureService;
 import webpics_grails.pic.Album;
 
 /**

@@ -14,15 +14,15 @@ class UserService {
 
 	def album = Album.get(albumId)
 	def user = getLoggedInUser()
-	println user
+
 	def retVal = false
 
 	for (role in user.roles){
 	    for(rAlbum in role.albums){
 
-    	    	if(rAlbum.id == album.id){
-                    retVal = true
-                    break
+		if(rAlbum.id == album.id){
+		    retVal = true
+		    break
 		}
 	    }
 	}
@@ -32,7 +32,7 @@ class UserService {
 
     def listAllAlbumsUserIsAllowedToSee(){
 	if(SecurityUtils.subject.hasRole(Role.ADMINISTRATOR)){
-	    return Album.findAll(sort: "name")
+	    return Album.list()
 	}
 
 	def user = getLoggedInUser()
@@ -47,6 +47,6 @@ class UserService {
     }
 
     def getLoggedInUser(){
-	return User.findByUsername(SecurityUtils.getSubject().principal)
+	return User.findByUsername(SecurityUtils.subject.getPrincipal())
     }
 }

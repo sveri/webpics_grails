@@ -1,15 +1,17 @@
-package webpics_grails
+package webpics_grails.controller
 
 
 
 import grails.test.mixin.*
 import org.junit.*
 
+import webpics_grails.auth.RoleController;
+
 /**
  * See the API for {@link grails.test.mixin.web.ControllerUnitTestMixin} for usage instructions
  */
-@TestFor(AlbumController)
-class AlbumControllerTests {
+@TestFor(RoleController)
+class RoleControllerTests {
 
     void testSomething() {
        fail "Implement me"

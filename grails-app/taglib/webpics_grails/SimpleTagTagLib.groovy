@@ -1,4 +1,4 @@
-package pix
+package webpics_grails
 
 class SimpleTagTagLib {
 

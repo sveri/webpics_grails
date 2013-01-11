@@ -1,9 +1,11 @@
-package webpics_grails;
+package webpics_grails.service;
 
 
 import com.google.common.io.Files;
 import org.junit.Assert;
 import org.junit.Test;
+
+import webpics_grails.PictureServiceJava;
 
 import java.io.File;
 import java.io.IOException;

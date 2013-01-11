@@ -7,7 +7,6 @@ import java.util.zip.ZipFile
 import webpics_grails.pic.Album
 import webpics_grails.pic.Photo
 
-import java.util.zip.ZipInputStream
 import java.util.zip.ZipOutputStream
 
 class PictureService {

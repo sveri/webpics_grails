@@ -4,7 +4,6 @@ import grails.validation.Validateable;
 
 import org.apache.shiro.crypto.SecureRandomNumberGenerator
 import org.apache.shiro.crypto.hash.Sha512Hash
-import org.codehaus.groovy.grails.validation.MinSizeConstraint;
 import org.springframework.dao.DataIntegrityViolationException
 
 class UserController {
@@ -22,7 +21,7 @@ class UserController {
 	def save() {
 		def userInstance = new User(params)
 		def passwordCommand = new PasswordCommand()
-		
+
 		//set blind values for password
 		userInstance.passwordHash = "bla"
 		userInstance.passwordSalt = "bla"
@@ -31,7 +30,7 @@ class UserController {
 			render(view: "create", model: [user: userInstance, passwordCommand: passwordCommand])
 			return
 		}
-		
+
 		bindData(passwordCommand, params)
 		if(!passwordCommand.validate()){
 			flash.message = message(code: 'user.password.not_null_and_match')
@@ -52,8 +51,8 @@ class UserController {
 		flash.message = message(code: 'default.created.message', args: [message(code: 'pix.user', default: 'User'), userInstance.id])
 		redirect(action: "index")
 	}
-	
-	
+
+
 	def setPassword(User userInstance, String password) {
 		def passwordSalt = new SecureRandomNumberGenerator().nextBytes().getBytes()
 		userInstance.passwordSalt = passwordSalt
@@ -70,7 +69,7 @@ class UserController {
 
 		[user: userInstance, passwordCommand: new PasswordCommand()]
 	}
-	
+
 	def changePassword(Long id){
 		def userInstance = User.get(id)
 		if (!userInstance) {
@@ -78,20 +77,20 @@ class UserController {
 			redirect(action: "index")
 			return
 		}
-		
+
 		def passwordCommand = new PasswordCommand()
 		bindData(passwordCommand, params)
-		
+
 		if(!passwordCommand.validate()){
 			flash.message_password = message(code: 'user.password.not_null_and_match')
 			render(view: "edit", model: [user: userInstance, passwordCommand: passwordCommand])
 			return
 		}
-		
+
 		setPassword(userInstance, params.password)
-		
+
 		flash.message_password = message(code: 'user.password.successfully_changed')
-		
+
 		redirect(action: "edit", id: userInstance.id)
 	}
 
@@ -149,7 +148,7 @@ class UserController {
 class PasswordCommand {
 	String password
 	String passwordRepeat
-	
+
 	static constraints = {
 		passwordRepeat blank: false, minSize: 6
 		password blank: false, minSize: 6, validator: {password, obj ->

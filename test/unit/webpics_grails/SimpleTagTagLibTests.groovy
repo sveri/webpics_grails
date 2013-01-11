@@ -1,9 +1,11 @@
-package pix
+package webpics_grails
 
 
 
 import grails.test.mixin.*
 import org.junit.*
+
+import webpics_grails.SimpleTagTagLib;
 
 /**
  * See the API for {@link grails.test.mixin.web.GroovyPageUnitTestMixin} for usage instructions
@@ -12,6 +14,6 @@ import org.junit.*
 class SimpleTagTagLibTests {
 
     void testSomething() {
-        fail "Implement me"
+	fail "Implement me"
     }
 }

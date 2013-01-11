@@ -9,6 +9,9 @@ class Photo {
 
     static constraints = {
         name blank: false, null: false, unique: ['album']
+    }
 
+    String toString(){
+	return name
     }
 }

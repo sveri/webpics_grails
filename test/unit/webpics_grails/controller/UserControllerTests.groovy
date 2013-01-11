@@ -1,8 +1,11 @@
-package webpics_grails.auth
+package webpics_grails.controller
 
 
 
 import org.junit.*
+
+import webpics_grails.auth.User;
+import webpics_grails.auth.UserController;
 import grails.test.mixin.*
 
 @TestFor(UserController)

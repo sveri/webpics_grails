@@ -15,7 +15,7 @@ class AlbumController {
 
     def albumService
 
-    static allowedMethods = [save: "POST", upload: "GET", upload: ["POST", "GET"],
+    static allowedMethods = [save: "POST", upload: ["POST", "GET"],
 	album: "GET", jsupload: "POST", zipupload: "POST", getFile: "GET"]
 
     def pictureService
@@ -44,7 +44,7 @@ class AlbumController {
             albums = userService.listAllAlbumsUserIsAllowedToSee()
         }catch(e){
             albums = []
-        	    log.error(e)
+	    log.error(e)
         }
         [albums: albums, albumForm: new Album()]
     }
