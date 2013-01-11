@@ -1,4 +1,4 @@
-package webpics_grails
+package webpics_grails.taglib
 
 
 

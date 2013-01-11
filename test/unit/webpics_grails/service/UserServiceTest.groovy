@@ -1,15 +1,16 @@
 package webpics_grails.service
 
-import grails.buildtestdata.mixin.Build;
-import grails.test.mixin.TestFor;
-import grails.test.mixin.TestMixin;
-import grails.test.mixin.domain.DomainClassUnitTestMixin;
+import grails.buildtestdata.mixin.Build
+import grails.test.mixin.TestFor
+import grails.test.mixin.TestMixin
+import grails.test.mixin.domain.DomainClassUnitTestMixin
 import grails.test.mixin.support.*
 
 import org.apache.shiro.SecurityUtils
-import org.junit.Test;
+import org.junit.Test
 
-import webpics_grails.UserService;
+import webpics_grails.TestDataBuilderHelper
+import webpics_grails.UserService
 import webpics_grails.auth.Role
 import webpics_grails.auth.User
 import webpics_grails.pic.Album
@@ -43,22 +44,25 @@ class UserServiceTest {
 
     @Test
     void testIsAllowedToSeeHisAlbum() {
-	setUpAlbumsAndUser()
-	secUtil.demand.static.getSubject(1..6) { -> [hasRole: { String -> false }
-	    ,getPrincipal: { -> "sveri"}
-	]}
+	TestDataBuilderHelper.setUpThreeAlbumsAndUserWithRoleUser()
+	secUtil.demand.static.getSubject(1..6) {
+	    -> [hasRole: { String -> false }
+		,getPrincipal: { -> "sveri"}
+	    ]
+	}
 
-        assert userService.isUserAllowedToSeeAlbum("1")
+	assert userService.isUserAllowedToSeeAlbum("1")
 	assert userService.isUserAllowedToSeeAlbum("2")
-        assert ! userService.isUserAllowedToSeeAlbum("3")
+	assert ! userService.isUserAllowedToSeeAlbum("3")
     }
 
     @Test
     void testListAllAlbumsForUser() {
-	setUpAlbumsAndUser()
+	TestDataBuilderHelper.setUpThreeAlbumsAndUserWithRoleUser()
 
-	secUtil.demand.static.getSubject(1..2) { -> [hasRole: { String -> false }
-	    ,getPrincipal: { -> "sveri"}
+	secUtil.demand.static.getSubject(1..2) {
+	    -> [hasRole: { String -> false }
+		,getPrincipal: { -> "sveri"}
 	    ]
 	}
 
@@ -67,28 +71,12 @@ class UserServiceTest {
 
     @Test
     void testListAllAlbumsForAdmin() {
-	setUpAlbumsAndUser()
+	TestDataBuilderHelper.setUpThreeAlbumsAndUserWithRoleUser()
 
 	secUtil.demand.static.getSubject(1..2) {
 	    -> [hasRole: { String -> true }]
 	}
 
 	assert userService.listAllAlbumsUserIsAllowedToSee().size() == 3
-    }
-
-    static setUpAlbumsAndUser(){
-	def album = Album.build()
-	def albumTwo = Album.build()
-	Album.build()
-	assert Album.count == 3
-
-	def roleUser = Role.build(
-	    name: "User",
-	    albums: [album, albumTwo]
-	)
-	User.build(
-	    username: "sveri",
-	    roles: [ roleUser],
-	)
     }
 }

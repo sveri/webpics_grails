@@ -1,13 +1,11 @@
 package webpics_grails.service
 
 
-
 import grails.buildtestdata.mixin.Build
 import grails.test.mixin.*
-
 import org.junit.*
 
-import webpics_grails.AlbumService;
+import webpics_grails.AlbumService
 import webpics_grails.auth.Role
 import webpics_grails.auth.User
 import webpics_grails.pic.Album
@@ -18,8 +16,6 @@ import webpics_grails.pic.Album
 @TestFor(AlbumService)
 @Build([User, Role, Album])
 class AlbumServiceTests {
-
-    //    def userServiceTest
 
     @Test
     void testAddAlbumToLoggedinUser() {
