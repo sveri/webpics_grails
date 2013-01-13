@@ -57,13 +57,12 @@ grails.project.dependency.resolution = {
 
 	compile ':cache:1.0.0'
 
-	test ':fixtures:1.2'
 	test ':build-test-data:2.0.3'
 	test(":spock:0.7") { exclude "spock-grails-support" }
     }
 }
 
-// disabling warning for public controller methods, which is default since grails 2.0
+// disabling some warnings, which are not useful with grails 2.2
 codenarc.properties = {
     GrailsPublicControllerMethod.enabled = false
     ReturnNullFromCatchBlock.enabled = false
