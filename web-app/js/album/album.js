@@ -11,6 +11,13 @@ $(document).ready(function() {
 		    this.bind("image", function(e) {
 		        rotVal = 0;
 		    });
+		    
+		    this.bind("load", function(e) {
+		    	console.log(e);
+		    	
+		    });
+		    
+		    
 			
 	        gallery.attachKeyboard({
 	            left: function(){

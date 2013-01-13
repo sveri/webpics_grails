@@ -7,3 +7,12 @@ if (typeof jQuery !== 'undefined') {
 		});
 	})(jQuery);
 }
+
+jQuery(document).ready(function(){
+	console.log(SPACER_GIF);
+    $.fn.sessionTimeout({
+        autoping: true,
+        timeout : 30000,
+        resource: SPACER_GIF
+    }); 
+});

@@ -22,6 +22,7 @@
 	
     <script type="text/javascript">
     	PROJECT_WEBROOT = "${createLink(uri: '/')}";
+    	SPACER_GIF = "${resource(dir: 'images', file: 'spacer.gif')}"
     </script>
 	
 	<r:require modules="bootstrap, application"/>
