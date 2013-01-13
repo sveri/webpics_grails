@@ -16,7 +16,9 @@
 		<tmpl:albumLeftNav album="${album}" /> 
 
 		<g:if test="${photos.size==0}">
-			<h4><g:message code="pix.albums.album.no_photos" /></h4>
+			<h4><g:message code="pix.albums.album.no_photos" />
+				<g:hasPermissions in="['album:upload','album:jsupload']"><g:message code="pix.albums.album.no_photos.upload" /></g:hasPermissions>  
+			</h4>
 		</g:if>
 		<g:else>
 			<tmpl:albumGalleria photos="${photos}" />

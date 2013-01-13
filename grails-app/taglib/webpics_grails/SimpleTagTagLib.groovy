@@ -1,6 +1,11 @@
 package webpics_grails
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.grails.ShiroTagLib;
+
 class SimpleTagTagLib {
+
+//    static namespace = "pix"
 
     /**
      * @attr controller returns 'active' if the controller equals the current open controller
@@ -46,5 +51,21 @@ class SimpleTagTagLib {
 	} else {
 	    out << "<i>-</i>"
 	}
+    }
+
+    /**
+     * Returns true if the user or his role has one of the given permissions.
+     * @attr in the list with the permissions. Must have the form: in="['cont:act:right','cont:act:right2']"
+     */
+    def hasPermissions = { attrs, body ->
+	def isAllowed = false
+	for (attr in attrs["in"]) {
+	    if(SecurityUtils.subject.isPermitted(attr)){
+		isAllowed = true
+		break
+	    }
+	}
+	if(isAllowed)
+		out << body()
     }
 }
