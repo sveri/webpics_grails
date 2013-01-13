@@ -31,10 +31,6 @@ class AlbumController {
     }
 
     def upload() {
-//	if (request.xhr) {
-//	    render template: "albumUpload", model: [album: Album.get(params.id)]
-//	} else {
-//	}
 	[album: Album.get(params.id)]
     }
 
@@ -53,7 +49,7 @@ class AlbumController {
         def albumInstance = new Album(params)
         if (!albumInstance.save(flush: true)) {
             render(view: "index", model: [albums: Album.findAll(sort: "name"), albumForm: albumInstance])
-	    log.error("action: save - error while trying to save an album");
+	    log.error("action: save - error while trying to save an album")
             return
         }
 

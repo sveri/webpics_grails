@@ -25,14 +25,14 @@ class SimpleTagTagLib {
     }
 
     /**
-     *
+     * no tests exist for this
      */
     def permissionSelect = {
 	attrs->
 	def allPerms = ((attrs.value ?: []) + grailsApplication.controllerClasses.findAll{
 	    it.propertyName!="authController" && it.propertyName!="dbdocController" && it.propertyName!="errorController"
 	}.collect{ controller->
-	    def base = controller.propertyName - 'Controller';
+	    def base = controller.propertyName - 'Controller'
 	    controller.getURIs().collect{
 		def action = it.split('\\/')
 		action = (action.size() == 2 ? "*" : action[2] )
