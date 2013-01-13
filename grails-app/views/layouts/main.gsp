@@ -22,7 +22,7 @@
 	
     <script type="text/javascript">
     	PROJECT_WEBROOT = "${createLink(uri: '/')}";
-    	SPACER_GIF = "${resource(dir: 'images', file: 'spacer.gif')}"
+        RESET_SESSION_TIMEOUT_URL = "${createLink(controller: 'application', action: 'resetSessionTimeout')}";
     </script>
 	
 	<r:require modules="bootstrap, application"/>

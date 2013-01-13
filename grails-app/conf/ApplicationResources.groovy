@@ -1,8 +1,5 @@
 modules = {
-    application {
-	resource url:'js/main.js'
-	resource url: 'js/jquery.sessiontimeout.min.js'
-    }
+    application { resource url:'js/main.js' }
 
     album_view {
 	resource url: '/js/album/galleria/galleria-1.2.8.min.js'

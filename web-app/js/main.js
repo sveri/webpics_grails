@@ -8,11 +8,17 @@ if (typeof jQuery !== 'undefined') {
 	})(jQuery);
 }
 
+function reset_session_timeout(){
+    var feedback = $.ajax({
+        type: "GET",
+        url: RESET_SESSION_TIMEOUT_URL,
+        async: true
+    }).complete(function(){
+        setTimeout(function(){reset_session_timeout();}, 60000 * 60000 * 60000);
+    });
+
+}
+
 jQuery(document).ready(function(){
-	console.log(SPACER_GIF);
-    $.fn.sessionTimeout({
-        autoping: true,
-        timeout : 30000,
-        resource: SPACER_GIF
-    }); 
+	reset_session_timeout();
 });
