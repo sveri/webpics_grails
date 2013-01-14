@@ -23,6 +23,7 @@ class TestDataBuilderHelper {
 	    name: "User",
 	    albums: [album, albumTwo]
 	)
+
 	User.build(
 	    username: "sveri",
 	    roles: [ roleUser],
