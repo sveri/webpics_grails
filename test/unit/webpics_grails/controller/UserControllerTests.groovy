@@ -20,21 +20,20 @@ class UserControllerTests {
 
     void testIndex() {
         controller.index()
-        assert "/user/list" == response.redirectedUrl
+        assert "/user/index" == response.redirectedUrl
     }
 
     void testList() {
+        def model = controller.index()
 
-        def model = controller.list()
-
-        assert model.userInstanceList.size() == 0
-        assert model.userInstanceTotal == 0
+        assert model.users.size() == 0
     }
 
     void testCreate() {
         def model = controller.create()
 
-        assert model.userInstance != null
+        assert model.user != null
+        assert model.passwordCommand != null
     }
 
     void testSave() {

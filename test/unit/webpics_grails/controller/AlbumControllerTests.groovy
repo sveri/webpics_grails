@@ -12,4 +12,9 @@ import webpics_grails.AlbumController
  */
 @TestFor(AlbumController)
 class AlbumControllerTests {
+
+    @Test
+    def doNothing(){
+
+    }
 }
