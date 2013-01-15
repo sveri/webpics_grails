@@ -47,6 +47,17 @@ class UserService {
     }
 
     static getLoggedInUser(){
-	return User.findByUsername(SecurityUtils.subject.getPrincipal())
+	    return User.findByUsername(SecurityUtils.subject.getPrincipal())
+    }
+
+    static getLoggedinUsersPermissions() {
+        def user = getLoggedInUser()
+        def permissions = []
+        user.roles.each { role ->
+            role.permissions.each { perm ->
+                permissions << perm
+            }
+        }
+        return permissions.unique().sort()
     }
 }

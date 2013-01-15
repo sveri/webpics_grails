@@ -4,7 +4,7 @@ $(document).ready(function() {
 	});
 
 	var uploader = new qq.FileUploader({
-		// pass the dom node (ex. $(selector)[0] for jQuery users)
+		// pass the dom node (ex. $(selector)[0] for jQuery users.groovy)
 		element : document.getElementById('file-uploader'),
 		multiple : true,
 		maxConnections : 3,

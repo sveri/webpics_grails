@@ -11,7 +11,7 @@
             <div class="row">
 
 			    <div class="span6">
-                    <legend><g:message code="pix.navigation.role.edit" /></legend>
+                    <legend><g:message code="pix.navigation.role.edit" args="[role.name]" /></legend>
 
                     <g:render template="/shared/message" model="['message': flash.message]" />
 
