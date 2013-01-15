@@ -46,7 +46,7 @@ class UserService {
 	return albums.sort()
     }
 
-    def getLoggedInUser(){
+    static getLoggedInUser(){
 	return User.findByUsername(SecurityUtils.subject.getPrincipal())
     }
 }

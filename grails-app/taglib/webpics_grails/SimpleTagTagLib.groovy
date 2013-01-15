@@ -3,6 +3,8 @@ package webpics_grails
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.grails.ShiroTagLib;
 
+import webpics_grails.auth.User;
+
 class SimpleTagTagLib {
 
 //    static namespace = "pix"
@@ -32,8 +34,7 @@ class SimpleTagTagLib {
     /**
      * no tests exist for this
      */
-    def permissionSelect = {
-	attrs->
+    def permissionSelect = { attrs ->
 	def allPerms = ((attrs.value ?: []) + grailsApplication.controllerClasses.findAll{
 	    it.propertyName!="authController" && it.propertyName!="dbdocController" && it.propertyName!="errorController"
 	}.collect{ controller->

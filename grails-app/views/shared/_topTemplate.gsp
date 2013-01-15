@@ -30,16 +30,14 @@
           
 			<div class="nav-collapse">
 				<ul class="nav">
-					<shiro:isLoggedIn>
+					<shiro:hasPermission permission="album:index">
 						<li class="${activeContLink(controller: 'album')}"><g:link controller="album" >
 							<g:message code="pix.navigation.albums" /></g:link></li>
-						<shiro:hasRole name="Administrator">
-							<li class="${activeContLink(controller: 'user')}"><g:link controller="user" >
-								<g:message code="pix.navigation.user" /></g:link></li>
-						</shiro:hasRole>
-					</shiro:isLoggedIn>
-					
-            	
+					</shiro:hasPermission>
+					<shiro:hasPermission permission="user:index">
+						<li class="${activeContLink(controller: 'user')}"><g:link controller="user" >
+							<g:message code="pix.navigation.user" /></g:link></li>
+					</shiro:hasPermission>
             	</ul>
             </div><!--/.nav-collapse -->
             
