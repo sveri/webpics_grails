@@ -52,6 +52,12 @@ pix.copyright_notice=copyright notice
 ## Feature History
 See all features as they came in
 
+### 0.2.2
+* added tests for services
+* omit an hourly ajax get request to stay logged in as long as the browser is opened
+* a user can only assign the rights he himself has
+* minor fixes
+
 ### 0.2.1
 * added a bit logging
 * Administrator can see all albums
