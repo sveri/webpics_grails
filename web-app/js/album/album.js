@@ -10,6 +10,9 @@ $(document).ready(function() {
 		    
 		    this.bind("image", function(e) {
 		        rotVal = 0;
+                var reg = /\photoid=(.*)&size=/g;
+                var res = reg.exec(e.galleriaData.image);
+                $('body').data('lastImageId', res[1]);
 		    });
 			
 	        gallery.attachKeyboard({
