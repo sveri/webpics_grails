@@ -22,7 +22,7 @@ import org.imgscalr.Scalr.Method;
 
 public class PictureServiceJava {
 
-    private String rotateImage(String pathToImage, int degree) {
+    public void rotateImage(String pathToImage, int degree) {
 
         BufferedImage image = null;
         String tempFileName = null;
@@ -60,8 +60,6 @@ public class PictureServiceJava {
         } catch (Exception e) {
             //TODO: Do something here
         }
-
-        return tempFileName;
 
     }
 

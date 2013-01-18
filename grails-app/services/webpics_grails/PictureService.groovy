@@ -15,6 +15,10 @@ class PictureService {
 
     def pictureServiceJava
 
+    def rotateImage(String albumId, String photoName, String rotVal) {
+        pictureServiceJava.rotateImage(getFilePath(albumId, photoName, ''), rotVal.toInteger())
+    }
+
     def compressAlbum(Album album){
 	def photos = Photo.findAllByAlbum(album)
 

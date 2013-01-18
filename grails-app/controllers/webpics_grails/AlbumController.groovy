@@ -125,4 +125,10 @@ class AlbumController {
         response.outputStream << file.bytes
         response.outputStream.flush()
     }
+
+    def rotateImage(){
+        def photo = Photo.get(params.photoId)
+        pictureService.rotateImage(photo.album.id.toString(), photo.name, params.rotVal)
+        render ''
+    }
 }

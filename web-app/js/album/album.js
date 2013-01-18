@@ -1,7 +1,14 @@
-$(document).ready(function() {	
+function rotateImage(photoId, rotVal) {
 
-	var value = 0;
-	
+    $.ajax({
+        type: "POST",
+        url: ROTATE_IMAGE_LINK,
+        data: { photoId: photoId, rotVal: rotVal }
+    });
+
+}
+$(document).ready(function() {
+
 	Galleria.loadTheme(GALLERIA_CLASSIC_THEME_LINK);
 	    var rotVal = 0;
 		
@@ -9,10 +16,12 @@ $(document).ready(function() {
 		    var gallery = this;
 		    
 		    this.bind("image", function(e) {
-		        rotVal = 0;
-                var reg = /\photoid=(.*)&size=/g;
-                var res = reg.exec(e.galleriaData.image);
-                $('body').data('lastImageId', res[1]);
+                if(rotVal != 0 ) {
+                    rotateImage($('body').data('lastImageId'), rotVal);
+
+                    rotVal = 0;
+                    setLastImageId(e);
+                }
 		    });
 			
 	        gallery.attachKeyboard({
@@ -59,3 +68,9 @@ $(document).ready(function() {
 	    });
 	
 });
+
+function setLastImageId(e) {
+    var reg = /\photoid=(.*)&size=/g;
+    var res = reg.exec(e.galleriaData.image);
+    $('body').data('lastImageId', res[1]);
+}
