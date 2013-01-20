@@ -5,10 +5,7 @@
 		<title><g:message code="pix.navigation.albums" /></title>
 		
 		<g:if test="${photos.size > 0}">
-			<script type="text/javascript">
-				var GALLERIA_CLASSIC_THEME_LINK = "${resource(dir: 'js/album/galleria/themes/classic/', file: 'galleria.classic.min.js')}";
-                var ROTATE_IMAGE_LINK = "${createLink(action: 'rotateImage')}"
-			</script>
+            <tmpl:galleriaJson photos="${photos}" />
 		    <r:require modules="album_view"/>
 		</g:if>
 		

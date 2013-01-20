@@ -1,8 +1,8 @@
-function rotateImage(photoId, rotVal) {
+function saveRotationState(photoId, rotVal) {
 
     $.ajax({
         type: "POST",
-        url: ROTATE_IMAGE_LINK,
+        url: SAVE_ROTATION_STATE,
         data: { photoId: photoId, rotVal: rotVal }
     });
 
@@ -13,18 +13,16 @@ $(document).ready(function() {
 	    var rotVal = 0;
 		
 		Galleria.ready(function() {
-		    var gallery = this;
-		    
 		    this.bind("image", function(e) {
                 if(rotVal != 0 ) {
-                    rotateImage($('body').data('lastImageId'), rotVal);
-
+                    saveRotationState(e.galleriaData.photoId, rotVal);
                     rotVal = 0;
-                    setLastImageId(e);
                 }
 		    });
+
+            this.lazyLoadChunks( 3 );
 			
-	        gallery.attachKeyboard({
+	        this.attachKeyboard({
 	            left: function(){
 	            	gallery.prev();
 	            },
@@ -47,7 +45,11 @@ $(document).ready(function() {
 	        });
 	     });
 		
-		Galleria.run('#galleria');
+		Galleria.run('#galleria', {
+            dataSource: dataGalleria,
+            thumbnails: 'lazy'
+        });
+
 		var gallery = Galleria.get(0);
 
 		$('#rotate-right').click(function() {
@@ -68,9 +70,3 @@ $(document).ready(function() {
 	    });
 	
 });
-
-function setLastImageId(e) {
-    var reg = /\photoid=(.*)&size=/g;
-    var res = reg.exec(e.galleriaData.image);
-    $('body').data('lastImageId', res[1]);
-}

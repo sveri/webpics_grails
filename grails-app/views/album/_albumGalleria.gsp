@@ -1,13 +1,7 @@
 <div id="galleria">
-	<g:each in="${photos}" var="photo">
-		<g:link action="getFile" params="[photoid: photo.id, size: '']">
-			<img data-big="${createLink(action: 'getFile', params: [photoid: photo.id, size: 'big'] )}"
-				src="${createLink(action: 'getFile', params: [photoid: photo.id, size: 'thumbs'] )}" />
-		</g:link>
-	</g:each>
-   </div>
+</div>
    
-   <div id="galleria-button-row" class="row" style="width: 900px;">
+<div id="galleria-button-row" class="row" style="width: 900px;">
    	<div class="span4">
     	<button id="rotate-left" class="btn" 
     		title="${message(code: 'pix.album.album.button.rotate_left.title')}">
