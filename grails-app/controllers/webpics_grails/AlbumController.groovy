@@ -16,31 +16,31 @@ class AlbumController {
     def albumService
 
     static allowedMethods = [save: "POST", upload: ["POST", "GET"],
-	album: "GET", jsupload: "POST", zipupload: "POST", getFile: "GET"]
+            album: "GET", jsupload: "POST", zipupload: "POST", getFile: "GET"]
 
     def pictureService
     def userService
 
     def album() {
-        if (!userService.isUserAllowedToSeeAlbum(params.id)){
-	    redirect(controller: "auth", action: 'unauthorized')
-	    return
+        if (!userService.isUserAllowedToSeeAlbum(params.id)) {
+            redirect(controller: "auth", action: 'unauthorized')
+            return
         }
         def album = Album.get(params.id)
         [album: album, photos: Photo.findAllByAlbum(album)]
     }
 
     def upload() {
-	[album: Album.get(params.id)]
+        [album: Album.get(params.id)]
     }
 
     def index() {
         def albums
-        try{
+        try {
             albums = userService.listAllAlbumsUserIsAllowedToSee()
-        }catch(e){
+        } catch (e) {
             albums = []
-	    log.error(e)
+            log.error(e)
         }
         [albums: albums, albumForm: new Album()]
     }
@@ -49,14 +49,14 @@ class AlbumController {
         def albumInstance = new Album(params)
         if (!albumInstance.save(flush: true)) {
             render(view: "index", model: [albums: Album.findAll(sort: "name"), albumForm: albumInstance])
-	    log.error("action: save - error while trying to save an album")
+            log.error("action: save - error while trying to save an album")
             return
         }
 
-	try{
-	    albumService.addAlbumToLoggedInUserRoles(albumInstance)
-        }catch(e){
-    	    log.error(e)
+        try {
+            albumService.addAlbumToLoggedInUserRoles(albumInstance)
+        } catch (e) {
+            log.error(e)
         }
 
         flash.message = message(code: 'default.created.message', args: [message(code: 'album.label', default: 'Album'), albumInstance.name])
@@ -68,7 +68,7 @@ class AlbumController {
         try {
             pictureService.storePicture(request.getInputStream(), params.albumid, params.qqfile)
         } catch (e) {
-	    log.error(e)
+            log.error(e)
             render(status: response.SC_INTERNAL_SERVER_ERROR, text: "{success: false}")
             return
         }
@@ -80,7 +80,7 @@ class AlbumController {
         try {
             pictureService.storeZippedImages(zipFile, params.albumid)
         } catch (e) {
-	    log.error(e)
+            log.error(e)
             flash.message = message(code: 'pix.something_went_wrong')
             redirect(action: "upload", params: [id: params.albumid])
             return
@@ -92,41 +92,41 @@ class AlbumController {
     def getFile() {
         def photo = Photo.get(params.photoid)
 
-	if(!userService.isUserAllowedToSeeAlbum(photo.album.id.toString())){
-	    log.error("action: getFile() - something went wrong while trying to get an image")
-	    redirect(controller: "auth", action: 'unauthorized')
-	    return
-	}
+        if (!userService.isUserAllowedToSeeAlbum(photo.album.id.toString())) {
+            log.error("action: getFile() - something went wrong while trying to get an image")
+            redirect(controller: "auth", action: 'unauthorized')
+            return
+        }
 
         def file = new File(pictureService.getFilePath(photo.album.id.toString(), photo.name, params.size))
         def img = file.bytes
-	def fileExtension = Files.getFileExtension(photo.name)
+        def fileExtension = Files.getFileExtension(photo.name)
 
-        if(fileExtension ==~ "(?i)jpg"){
-	    fileExtension = "jpeg"
+        if (fileExtension ==~ "(?i)jpg") {
+            fileExtension = "jpeg"
         }
 
-	response.setHeader("Content-Type", 'image/' + fileExtension)
+        response.setHeader("Content-Type", 'image/' + fileExtension)
         response.outputStream << img
         response.outputStream.flush()
     }
 
     def downloadAlbum() {
-	def album = Album.get(params.id)
-	def file
-	try{
-	    file = new File(pictureService.compressAlbum(album))
-        }catch(e){
-       	    log.error(e)
+        def album = Album.get(params.id)
+        def file
+        try {
+            file = new File(pictureService.compressAlbum(album))
+        } catch (e) {
+            log.error(e)
         }
 
-	response.setHeader("Content-disposition", "attachment;filename=${album.id}.zip")
+        response.setHeader("Content-disposition", "attachment;filename=${album.id}.zip")
         response.contentType = 'application/zip'
         response.outputStream << file.bytes
         response.outputStream.flush()
     }
 
-    def rotateImage(){
+    def rotateImage() {
         def photo = Photo.get(params.photoId)
         photo.rotVal = params.int('rotVal')
 //        pictureService.rotateImage(photo.album.id.toString(), photo.name, params.rotVal)

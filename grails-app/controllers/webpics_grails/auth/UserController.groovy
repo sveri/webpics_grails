@@ -48,7 +48,7 @@ class UserController {
 			return
 		}
 
-		flash.message = message(code: 'default.created.message', args: [message(code: 'pix.user', default: 'User'), userInstance.id])
+		flash.message = message(code: 'default.created.message', args: [message(code: 'pix.user', default: 'User'), userInstance.username])
 		redirect(action: "index")
 	}
 
@@ -120,7 +120,7 @@ class UserController {
 			return
 		}
 
-		flash.message = message(code: 'default.updated.message', args: [message(code: 'pix.user', default: 'User'), userInstance.id])
+		flash.message = message(code: 'default.updated.message', args: [message(code: 'pix.user', default: 'User'), userInstance.username])
 		redirect(action: "edit", id: userInstance.id)
 	}
 

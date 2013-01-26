@@ -53,7 +53,7 @@ class RoleController {
             return
         }
 
-        flash.message = message(code: 'default.updated.message', args: [message(code: 'role.label', default: 'Role'), role.id])
+        flash.message = message(code: 'default.updated.message', args: [message(code: 'role.label', default: 'Role'), role.name])
         redirect(action: "index")
     }
 }
