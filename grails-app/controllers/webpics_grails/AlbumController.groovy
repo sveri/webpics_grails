@@ -129,7 +129,6 @@ class AlbumController {
     def rotateImage() {
         def photo = Photo.get(params.photoId)
         photo.rotVal = params.int('rotVal')
-//        pictureService.rotateImage(photo.album.id.toString(), photo.name, params.rotVal)
         render ''
     }
 }

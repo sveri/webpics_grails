@@ -5,6 +5,8 @@ import static org.imgscalr.Scalr.OP_BRIGHTER;
 import static org.imgscalr.Scalr.resize;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -21,47 +23,6 @@ import javax.imageio.ImageIO;
 import org.imgscalr.Scalr.Method;
 
 public class PictureServiceJava {
-
-    public void rotateImage(String pathToImage, int degree) {
-
-        BufferedImage image = null;
-        String tempFileName = null;
-
-        try {
-            File fileOrig = new File(pathToImage);
-
-            if (fileOrig.exists()) {
-
-                image = ImageIO.read(fileOrig);
-
-                Image rotatedImage = new BufferedImage(image.getHeight(),
-                        image.getWidth(),image.getType());
-
-                Graphics2D g2d = (Graphics2D) rotatedImage.getGraphics();
-
-                g2d.rotate(Math.toRadians(degree));
-
-                g2d.drawImage(image, 0, -rotatedImage.getWidth(null), null);
-                g2d.dispose();
-
-                //Random name
-                String timeStampName = UUID.randomUUID().
-                        toString().substring(1, 8);
-
-                //Save image to java.io.tmpdir
-                tempFileName = System.getProperty("java.io.tmpdir") +
-                        timeStampName + ".jpg";
-
-
-                ImageIO.write((BufferedImage) rotatedImage, "jpg",
-                        fileOrig);
-            }
-
-        } catch (Exception e) {
-            //TODO: Do something here
-        }
-
-    }
 
     public File saveInputStreamToTempFile(final InputStream is, final String fileName) throws Exception {
         final File baseTempImageFile = Files.createTempFile(fileName, "pix").toFile();

@@ -2,7 +2,7 @@ modules = {
     application { resource url:'js/main.js' }
 
     album_view {
-	resource url: '/js/album/galleria/galleria-1.2.8.min.js'
+	resource url: '/js/album/galleria/galleria-1.2.9.min.js'
 	resource url: '/js/album/album.js'
 	resource url: '/js/album/jQueryRotateCompressed.2.2.js'
 	resource url: '/js/album/galleria/themes/classic/galleria.classic.css'
