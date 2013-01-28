@@ -7,24 +7,28 @@ $(document).ready(function() {
 		Galleria.ready(function() {
             var gallery = Galleria.get(0);
 
+            this.bind("thumbnail", function(e) {
+                $(e.thumbTarget).rotate(parseInt(e.galleriaData.rotVal));
+            });
+
             this.bind("loadfinish", function(e) {
                 // first check if the rotVal of the last image changed
-                var lastRotVal = getLastRotVal(gallery);
-                if(lastRotVal != undefined && rotVal != lastRotVal){
-                    saveRotationStateToDb(getLastImageId(), rotVal);
-                    gallery.getData(getLastGalleriaId()).rotVal = rotVal;
-                }
-//
-//                // now set rotVal to the rotation state of the new image
-                var rotValPic = parseInt(e.galleriaData.rotVal);
-                rotVal = rotValPic;
-//
-                if(rotValPic != 0){
-                    $(e.imageTarget).rotate(rotValPic);
+                var lastGalleryData = getLastGalleriaData(gallery);
+                var lastRotVal = lastGalleryData.rotVal;
+                if(lastGalleryData.photoId != e.galleriaData.photoId && rotVal != lastRotVal){
+                    saveRotationStateToDb(lastGalleryData.photoId, rotVal);
+                    lastGalleryData.rotVal = rotVal;
                 }
 
-                storeCurrentImageId(e.galleriaData.photoId, gallery.getIndex());
-                storeCurrentImageRotVal(e.galleriaData.rotVal);
+                // now set rotVal to the rotation state of the new image
+                rotVal = parseInt(e.galleriaData.rotVal);
+
+                if(rotVal != 0){
+                    $(e.imageTarget).rotate(rotVal);
+                    $(e.thumbTarget).rotate(rotVal);
+                }
+
+                storeCurrentImageId(gallery.getIndex());
 		    });
 
             this.lazyLoadChunks( 3 );
@@ -62,7 +66,7 @@ $(document).ready(function() {
                     $(gallery.getActiveImage()).rotate(rotVal);
                 });
                 $('#fullscreen').click(function() {
-                    gallery.enterFullscreen(); // will go full screen when the #fullscreen element is clicked
+                    gallery.enterFullscreen();
                 });
             }
         });
@@ -79,22 +83,9 @@ function saveRotationStateToDb(photoId, rotVal) {
     });
 }
 
-function storeCurrentImageId(photoId, galleriaId) {
-    $('body').data('album_lastImageId', photoId);
+function storeCurrentImageId(galleriaId) {
     $('body').data('album_lastGalleriaId', galleriaId);
 }
-function storeCurrentImageRotVal(photoId) {
-    $('body').data('album_lastImageRotVal', photoId);
-}
-
-function getLastImageId() {
-    return $('body').data('album_lastImageId');
-}
-function getLastRotVal(gallery) {
-    return $('body').data('album_lastImageRotVal');
-//    return gallery.getData(gallery.getPrev()).rotVal;
-}
-
-function getLastGalleriaId() {
-    return $('body').data('album_lastGalleriaId');
+function getLastGalleriaData(gallery) {
+    return gallery.getData($('body').data('album_lastGalleriaId'));
 }
