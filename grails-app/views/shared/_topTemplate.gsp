@@ -35,7 +35,8 @@
 							<g:message code="pix.navigation.albums" /></g:link></li>
 					</shiro:hasPermission>
 					<shiro:hasPermission permission="user:index">
-						<li class="${activeContLink(controller: 'user')}"><g:link controller="user" >
+						<li class="${activeContLink(controller: 'user')} ${activeContLink(controller: 'role')}"><g:link
+                                controller="user" >
 							<g:message code="pix.navigation.user" /></g:link></li>
 					</shiro:hasPermission>
             	</ul>

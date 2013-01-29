@@ -12,7 +12,7 @@ class SimpleTagTagLib {
      * used for the navigation bar to indicate an active link
      */
     def activeContLink = { attrs, body ->
-	out << body() << (attrs.controller == pageScope.controllerName ? "active" : "")
+        out << body() << (attrs.controller == pageScope.controllerName ? "active" : "")
     }
 
     /**
@@ -24,8 +24,8 @@ class SimpleTagTagLib {
      * used for the navigation bar to indicate an active link
      */
     def activeContActLink = { attrs, body ->
-	out << body() << ( (attrs.controller == pageScope.controllerName
-		&& attrs.action == pageScope.actionName) ? "active" : "")
+        out << body() << ((attrs.controller == pageScope.controllerName
+                && attrs.action == pageScope.actionName) ? "active" : "")
     }
 
     /**
@@ -62,14 +62,14 @@ class SimpleTagTagLib {
      * @attr in the list with the permissions. Must have the form: in="['cont:act:right','cont:act:right2']"
      */
     def hasPermissions = { attrs, body ->
-	def isAllowed = false
-	for (attr in attrs["in"]) {
-	    if(SecurityUtils.subject.isPermitted(attr)){
-		isAllowed = true
-		break
-	    }
-	}
-	if(isAllowed)
-		out << body()
+        def isAllowed = false
+        for (attr in attrs["in"]) {
+            if (SecurityUtils.subject.isPermitted(attr)) {
+                isAllowed = true
+                break
+            }
+        }
+        if (isAllowed)
+            out << body()
     }
 }

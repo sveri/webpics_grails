@@ -1,6 +1,8 @@
 package webpics_grails
 
 import org.apache.commons.logging.LogFactory
+import org.springframework.dao.DataIntegrityViolationException
+import webpics_grails.auth.Role
 import webpics_grails.pic.Album
 import webpics_grails.pic.Photo
 
@@ -15,8 +17,8 @@ class AlbumController {
 
     def albumService
 
-    static allowedMethods = [save: "POST", upload: ["POST", "GET"],
-            album: "GET", jsupload: "POST", zipupload: "POST", getFile: "GET"]
+    static allowedMethods = [save: "POST", upload: ["POST", "GET"], delete: "POST",
+            album: "GET", jsupload: "POST", zipupload: "POST", getFile: "GET", renameAlbum: "POST"]
 
     def pictureService
     def userService
@@ -130,5 +132,39 @@ class AlbumController {
         def photo = Photo.get(params.photoId)
         photo.rotVal = params.int('rotVal')
         render ''
+    }
+
+    def renameAlbum(){
+        def album = Album.get(params.pk)
+        album.name = params.value
+        if (!album.save()){
+            render(status: 500)
+            return
+        }
+        render status: 200, text: album.id
+    }
+
+    def delete(Long id) {
+        def album = Album.get(id)
+        if (!album) {
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'pix.album',
+                    default: 'Album'), name])
+            redirect(action: "index")
+            return
+        }
+
+        try {
+            albumService.deleteAlbum(album)
+
+            flash.message = message(code: 'default.deleted.message', args: [message(code: 'pix.album',
+                    default: 'Album'), album.name])
+            redirect(action: "index")
+        }
+        catch (DataIntegrityViolationException e) {
+            flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'pix.album',
+                    default: 'Album'), album.name])
+            log.error(e)
+            redirect(action: "index")
+        }
     }
 }

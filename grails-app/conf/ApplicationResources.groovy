@@ -1,6 +1,13 @@
 modules = {
     application { resource url: 'js/main.js' }
 
+    album_index {
+        resource url: '/js/bootstrap-editable.min.js'
+        resource url: '/js/album/album_index.js'
+        resource url: '/css/bootstrap-editable.css'
+        resource url: '/css/album/album_index.css'
+    }
+
     album_view {
         resource url: '/js/album/galleria/galleria-1.2.9.min.js'
         resource url: '/js/album/album.js'
