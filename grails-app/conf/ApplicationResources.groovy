@@ -5,7 +5,6 @@ modules = {
         resource url: '/js/bootstrap-editable.min.js'
         resource url: '/js/album/album_index.js'
         resource url: '/css/bootstrap-editable.css'
-        resource url: '/css/album/album_index.css'
     }
 
     album_view {
