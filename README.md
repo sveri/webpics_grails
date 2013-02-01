@@ -6,8 +6,11 @@ Is a picture viewer for your own webserver and all the people that dont want to 
 You can get the current version at: http://sonstiges.sveri.de/pix-0.2.2.war
 
 A demo is available under: http://pix-demo.sveri-fam.de/
+
 Username: demo
+
 Password: demodemo
+
 Uploading and adding/editing users/roles is disabled on this demo.
 
 
