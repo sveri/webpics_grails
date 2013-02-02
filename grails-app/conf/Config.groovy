@@ -67,6 +67,12 @@ environments {
     development {
         grails.logging.jul.usebridge = true
     }
+    demo {
+        grails.logging.jul.usebridge = false
+        grails.config.locations = [ "classpath:pix-demo-config.properties",
+                "file:${userHome}/.pix/pix-demo-config.properties",
+                "file:${userHome}/.grails/pix-demo-config.properties"]
+    }
     production {
         grails.logging.jul.usebridge = false
         // TODO: grails.serverURL = "http://pix.sveri.de"
