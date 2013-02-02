@@ -3,7 +3,7 @@ webpics_grails
 
 Is a picture viewer for your own webserver and all the people that dont want to get there pictures into the cloud.
 
-You can get the current version at: http://sonstiges.sveri.de/pix-0.2.2.war
+You can get the current version at: http://sonstiges.sveri.de/pix-0.2.3.war
 
 A demo is available under: http://pix-demo.sveri-fam.de/
 
@@ -40,7 +40,7 @@ The following features are currently available.
 
 
 ## Usage
-* Download the latest war file from: http://sonstiges.sveri.de/pix-0.2.2.war . Upload this to your host and run it with your 
+* Download the latest war file from: http://sonstiges.sveri.de/pix-0.2.3.war . Upload this to your host and run it with your 
 preferred Java servlet container like Jetty or Tomcat. You can find all the supported Servers 
 under: http://grails.org/Deployment
 * Setup your database by adding a new database for pix. As grails uses hibernate many databases are supported. 
