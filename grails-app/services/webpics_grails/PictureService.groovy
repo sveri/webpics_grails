@@ -22,7 +22,8 @@ class PictureService {
         ZipOutputStream out = new ZipOutputStream(new FileOutputStream(baseTempImageFile));
 
         for (photo in photos) {
-            FileInputStream fis = new FileInputStream(getFilePath(album.id.toString(), photo.name, "big"));
+            def folder = getKeepOriginals() ? "orig" : "big"
+            FileInputStream fis = new FileInputStream(getFilePath(album.id.toString(), photo.name, folder));
 
             out.putNextEntry(new ZipEntry(photo.name));
 
@@ -59,7 +60,7 @@ class PictureService {
 
         pictureServiceJava.createImageDirsIfNotExist(albumBasePath)
 
-        File baseTempImageFile = pictureServiceJava.saveInputStreamToTempFile(is, fileName)
+        File baseTempImageFile = pictureServiceJava.saveInputStreamToTempFile(is, fileName, getKeepOriginals(), albumBasePath)
 
         pictureServiceJava.resizeAndSaveImages(baseTempImageFile, albumBasePath, fileName)
         storePhotoInDb(fileName, albumId)
@@ -71,6 +72,10 @@ class PictureService {
 
     def getAlbumBasePath(String albumId) {
         return grailsApplication.config.pix.image_base_path + File.separator + albumId
+    }
+
+    def getKeepOriginals() {
+        return grailsApplication.config.pix.keep_originals == "true" ? true : false
     }
 
     def getFilePath(String albumId, String fileName, String size) {

@@ -4,9 +4,6 @@ import static org.imgscalr.Scalr.OP_ANTIALIAS;
 import static org.imgscalr.Scalr.OP_BRIGHTER;
 import static org.imgscalr.Scalr.resize;
 
-import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -16,7 +13,6 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.UUID;
 
 import javax.imageio.ImageIO;
 
@@ -24,8 +20,13 @@ import org.imgscalr.Scalr.Method;
 
 public class PictureServiceJava {
 
-    public File saveInputStreamToTempFile(final InputStream is, final String fileName) throws Exception {
-        final File baseTempImageFile = Files.createTempFile(fileName, "pix").toFile();
+    public File saveInputStreamToTempFile(final InputStream is, final String fileName, boolean keepOriginal, String albumBasePath) throws Exception {
+        File baseTempImageFile = null;
+        if (keepOriginal) {
+            baseTempImageFile = getOrigFile(albumBasePath, fileName);
+        } else {
+            baseTempImageFile = Files.createTempFile(fileName, "pix").toFile();
+        }
 
         final OutputStream out = new FileOutputStream(baseTempImageFile.getAbsolutePath());
         final byte[] buf = new byte[1024];
@@ -46,11 +47,13 @@ public class PictureServiceJava {
         final Path pathTargetFolderNormal = Paths.get(albumBasePath);
         final Path pathTargetFolderBig = Paths.get(pathTargetFolderNormal + File.separator + "big");
         final Path pathTargetFolderThumb = Paths.get(pathTargetFolderNormal + File.separator + "thumbs");
+        final Path pathTargetFolderOrig = Paths.get(pathTargetFolderNormal + File.separator + "orig");
 
         if (!Files.exists(pathTargetFolderNormal)) {
             Files.createDirectories(pathTargetFolderNormal);
             Files.createDirectories(pathTargetFolderBig);
             Files.createDirectories(pathTargetFolderThumb);
+            Files.createDirectories(pathTargetFolderOrig);
         }
 
     }
@@ -76,6 +79,9 @@ public class PictureServiceJava {
 
     private File getThumbFile(final String albumBasePath, final String fileName) {
         return new File(albumBasePath + File.separator + "thumbs" + File.separatorChar + fileName);
+    }
+    private File getOrigFile(final String albumBasePath, final String fileName) {
+        return new File(albumBasePath + File.separator + "orig" + File.separatorChar + fileName);
     }
 
     private File getBaseFile(final String albumBasePath, final String fileName) {
