@@ -20,6 +20,19 @@ import org.imgscalr.Scalr.Method;
 
 public class PictureServiceJava {
 
+    private int sizeBig = 1920;
+    private int sizeNormal = 700;
+    private int sizeThumbs = 60;
+
+    public void setSizes(int sizeThumbs, int sizeNormal, int sizeBig) {
+        try {
+            this.sizeThumbs = sizeThumbs;
+            this.sizeNormal = sizeNormal;
+            this.sizeBig = sizeBig;
+        } catch (Exception e) {
+        }
+    }
+
     public File saveInputStreamToTempFile(final InputStream is, final String fileName, boolean keepOriginal, String albumBasePath) throws Exception {
         File baseTempImageFile = null;
         if (keepOriginal) {
@@ -90,17 +103,17 @@ public class PictureServiceJava {
 
     private BufferedImage createBig(final BufferedImage img) {
         // Create quickly, then smooth and brighten it.
-        return resize(img, Method.SPEED, 1920, OP_ANTIALIAS, OP_BRIGHTER);
+        return resize(img, Method.SPEED, sizeBig, OP_ANTIALIAS, OP_BRIGHTER);
     }
 
     private BufferedImage createNormalImage(final BufferedImage img) {
         // Create quickly, then smooth and brighten it.
-        return resize(img, Method.SPEED, 700, OP_ANTIALIAS, OP_BRIGHTER);
+        return resize(img, Method.SPEED, sizeNormal, OP_ANTIALIAS, OP_BRIGHTER);
     }
 
     private BufferedImage createThumbnail(final BufferedImage img) {
         // Create quickly, then smooth and brighten it.
-        return resize(img, Method.SPEED, 60, OP_ANTIALIAS, OP_BRIGHTER);
+        return resize(img, Method.SPEED, sizeThumbs, OP_ANTIALIAS, OP_BRIGHTER);
     }
 
 

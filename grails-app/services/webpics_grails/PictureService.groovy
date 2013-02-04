@@ -62,6 +62,8 @@ class PictureService {
 
         File baseTempImageFile = pictureServiceJava.saveInputStreamToTempFile(is, fileName, getKeepOriginals(), albumBasePath)
 
+        pictureServiceJava.setSizes(grailsApplication.config.pix.size.thumbs.toInteger(), grailsApplication.config.pix.size.normal.toInteger(),
+                grailsApplication.config.pix.size.big.toInteger())
         pictureServiceJava.resizeAndSaveImages(baseTempImageFile, albumBasePath, fileName)
         storePhotoInDb(fileName, albumId)
     }
