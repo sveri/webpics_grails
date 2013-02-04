@@ -3,7 +3,7 @@ webpics_grails
 
 Is a picture viewer for your own webserver and all the people that dont want to get there pictures into the cloud.
 
-You can get the current version at: http://sonstiges.sveri.de/pix-0.2.2.war
+You can get the current version at: http://sonstiges.sveri.de/pix-0.2.3.war
 
 A demo is available under: http://pix-demo.sveri-fam.de/
 
@@ -22,7 +22,7 @@ The following features are currently available.
 * Upload zip files located on the server on a path which is accessible by the server
 
 ### Album
-* Album creation
+* Album creation/deletion/renaming
 * Upload Images to every album
 
 ### Rightmanagement
@@ -37,10 +37,11 @@ The following features are currently available.
 * Fullscreen view available
 * Navigate through gallery via keyboard shortcuts (left/right key)
 * Turn images via keyboard shortcuts (up/down key)
+* Rotation state of images is persisted to the backend, images will be loaded in the saved state
 
 
 ## Usage
-* Download the latest war file from: http://sonstiges.sveri.de/pix-0.2.2.war . Upload this to your host and run it with your 
+* Download the latest war file from: http://sonstiges.sveri.de/pix-0.2.3.war . Upload this to your host and run it with your 
 preferred Java servlet container like Jetty or Tomcat. You can find all the supported Servers 
 under: http://grails.org/Deployment
 * Setup your database by adding a new database for pix. As grails uses hibernate many databases are supported. 
@@ -59,6 +60,13 @@ pix.copyright_notice=copyright notice
 
 ## Feature History
 See all features as they came in
+
+### 0.2.3
+* save rotation state of images
+* delete albums with images
+* rename albums
+* added favicon
+* minor fixes
 
 ### 0.2.2
 * added tests for services
