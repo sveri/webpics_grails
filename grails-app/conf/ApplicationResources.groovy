@@ -1,5 +1,5 @@
 modules = {
-    application { resource url: 'js/main.js' }
+    application { resource url: 'js/main.js'}
 
     album_index {
         resource url: '/js/bootstrap-editable.min.js'

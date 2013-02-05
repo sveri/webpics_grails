@@ -18,19 +18,21 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <g:external dir="images" file="favicon.png" />
-	
+
 	<title>PIX - <g:layoutTitle default="PIX"/></title>
-	
+
     <script type="text/javascript">
     	PROJECT_WEBROOT = "${createLink(uri: '/')}";
         RESET_SESSION_TIMEOUT_URL = "${createLink(controller: 'application', action: 'resetSessionTimeout')}";
+        var piwik_url = "${grailsApplication.config.pix.piwik.url}";
+        var piwik_site_id = "${grailsApplication.config.pix.piwik.site_id}";
     </script>
-	
+
 	<r:require modules="bootstrap, application"/>
-	
+
 	<g:layoutHead/>
 	<r:layoutResources />
-	
+
 	<link rel="stylesheet" href="${resource(dir: 'css', file: 'main.css')}" type="text/css">
 </head>
 
@@ -41,15 +43,15 @@
 	<div id="spinner" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Loading&hellip;"/></div>
 
 	<div class="container-fluid">
-	    
+
 		<div class="row-fluid">
-		
+
                 <g:pageProperty name="page.navbar" />
 
 			<div class="content fixed-fixed">
 				<div class="content-container" id="mainContent">
 					<g:layoutBody/>
-				
+
 				</div>
 			</div>
 			<!--/span-->
@@ -60,9 +62,25 @@
 
 	</div>
 	<!--/.fluid-container-->
-	
-	<g:javascript library="application"/>
+
 	<r:layoutResources />
+
+
+<script type="text/javascript">
+    if(piwik_url != undefined && piwik_url != ''){
+        var pkBaseURL = (("https:" == document.location.protocol) ? "https://" + piwik_url + "/" : "http://" + piwik_url + "/");
+        document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+    }
+</script>
+<script type="text/javascript">
+    if(piwik_url != undefined && piwik_url != ''){
+        try {
+            var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", parseInt(piwik_site_id));
+            piwikTracker.trackPageView();
+            piwikTracker.enableLinkTracking();
+        } catch( err ) {}
+    }
+</script>
 
 </body>
 </html>
