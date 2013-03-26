@@ -5,7 +5,7 @@ Is a picture viewer for your own webserver and all the people that dont want to 
 
 You can get the current version at: http://sonstiges.sveri.de/pix-0.2.3.war
 
-A demo is available under: http://pix-demo.sveri-fam.de/
+A demo is available under: http://pix-demo.sveri.de/
 
 Username: demo
 
