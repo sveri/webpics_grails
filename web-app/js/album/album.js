@@ -1,5 +1,9 @@
 var rotVal = 0;
 
+function storeImageIdInDownloadImageLink(photoId) {
+    $("#downloadImage").attr('href', IMAGE_DOWNLOAD_LINK + "?photoId=" + photoId);
+}
+
 $(document).ready(function() {
 
 	Galleria.loadTheme(GALLERIA_CLASSIC_THEME_LINK);
@@ -27,6 +31,8 @@ $(document).ready(function() {
                     $(e.imageTarget).rotate(rotVal);
                     $(e.thumbTarget).rotate(rotVal);
                 }
+
+                storeImageIdInDownloadImageLink(e.galleriaData.photoId);
 
                 storeCurrentImageId(gallery.getIndex());
 		    });
@@ -89,3 +95,11 @@ function storeCurrentImageId(galleriaId) {
 function getLastGalleriaData(gallery) {
     return gallery.getData($('body').data('album_lastGalleriaId'));
 }
+
+
+//// used for the single image download in AlbumController
+//var imageDownloadParams;
+//
+//function setImageDownloadParams(){
+//    imageDownloadParams = {photoId: Galleria.get(0).getData().photoId};
+//}

@@ -1,6 +1,8 @@
 package webpics_grails
 
 import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.Paths
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
 
@@ -80,11 +82,32 @@ class PictureService {
         return grailsApplication.config.pix.keep_originals == "true" ? true : false
     }
 
+    def getLargestFileOfOneImage(String albumId, String fileName){
+        def filePath = "";
+        if (getKeepOriginals()){
+            filePath = getFilePath(albumId, fileName, "orig")
+        }
+
+        if (!getKeepOriginals() || ! Files.exists(Paths.get(filePath)))  {
+            filePath = getFilePath(albumId, fileName, "big")
+        }
+        return new File(filePath)
+    }
+
     def getFilePath(String albumId, String fileName, String size) {
-        def retVal = grailsApplication.config.pix.image_base_path + File.separator
-        retVal += albumId ? albumId + File.separator : ""
-        retVal += size ? size + File.separator : ""
-        retVal += fileName ? fileName : ""
-        return retVal
+        def filePath = grailsApplication.config.pix.image_base_path + File.separator
+        filePath += albumId ? albumId + File.separator : ""
+        filePath += size ? size + File.separator : ""
+        filePath += fileName ? fileName : ""
+        return filePath
+    }
+
+    def getFileExtension(String fileName){
+        def fileExtension = com.google.common.io.Files.getFileExtension(fileName)
+        if (fileExtension ==~ "(?i)jpg") {
+            fileExtension = "jpeg"
+        }
+
+        return fileExtension
     }
 }

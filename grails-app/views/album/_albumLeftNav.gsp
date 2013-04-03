@@ -1,3 +1,7 @@
+<script type="text/javascript">
+    var IMAGE_DOWNLOAD_LINK = "${createLink(action: 'downloadImage')}";
+</script>
+
 <content tag="navbar">
 	<div class="well sidebar-nav left">
 		<ul class="nav nav-list">
@@ -16,6 +20,12 @@
             <shiro:hasPermission permission="album:downloadAlbum">
                 <li class="${activeContActLink(controller: 'album', action:'downloadAlbum') }">
                 	<g:link action="downloadAlbum" id="${album.id}"><g:message code="pix.navigation.albums.download" /></g:link></li>
+            </shiro:hasPermission>
+            <shiro:hasPermission permission="album:downloadImage">
+                <g:canDownloadSingleImage>
+                    <li class="${activeContActLink(controller: 'album', action:'downloadAlbum') }">
+                        <g:link action="downloadImage" elementId="downloadImage"><g:message code="pix.navigation.albums.download_image" /></g:link></li>
+                </g:canDownloadSingleImage>
             </shiro:hasPermission>
 		</ul>
 	</div>

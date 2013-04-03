@@ -16,6 +16,14 @@ class SimpleTagTagLib {
     }
 
     /**
+     * @body the body to be returned in case we are on action album and controller alumb
+     */
+    def canDownloadSingleImage = { attrs, body ->
+        if (pageScope.controllerName == 'album' && pageScope.actionName == 'album')
+            out << body()
+    }
+
+    /**
      * @attr controller
      * @attr action
      * returns 'active' if the controller equals the current open controller and the action

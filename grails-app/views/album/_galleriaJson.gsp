@@ -2,7 +2,6 @@
     var GALLERIA_CLASSIC_THEME_LINK = "${resource(dir: 'js/album/galleria/themes/classic/', file: 'galleria.classic.min.js')}";
     var SAVE_ROTATION_STATE = "${createLink(action: 'rotateImage')}";
 
-
     var dataGalleria = [
         <g:each in="${photos}" var="photo">
             {
@@ -14,6 +13,4 @@
             },
         </g:each>
     ];
-
-
 </script>

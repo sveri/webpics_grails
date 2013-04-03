@@ -102,11 +102,7 @@ class AlbumController {
 
         def file = new File(pictureService.getFilePath(photo.album.id.toString(), photo.name, params.size))
         def img = file.bytes
-        def fileExtension = Files.getFileExtension(photo.name)
-
-        if (fileExtension ==~ "(?i)jpg") {
-            fileExtension = "jpeg"
-        }
+        def fileExtension = pictureService.getFileExtension(photo.name)
 
         response.setHeader("Content-Type", 'image/' + fileExtension)
         response.outputStream << img
@@ -124,6 +120,17 @@ class AlbumController {
 
         response.setHeader("Content-disposition", "attachment;filename=${album.id}.zip")
         response.contentType = 'application/zip'
+        response.outputStream << file.bytes
+        response.outputStream.flush()
+    }
+
+    def downloadImage() {
+        def photo = Photo.get(params.photoId)
+        def file = pictureService.getLargestFileOfOneImage(photo.albumId.toString(), photo.name)
+        def fileExtension = pictureService.getFileExtension(photo.name)
+
+        response.setHeader('Content-Disposition', 'attachment; filename="' + photo.name + '"')
+        response.contentType = 'application/' + fileExtension
         response.outputStream << file.bytes
         response.outputStream.flush()
     }
