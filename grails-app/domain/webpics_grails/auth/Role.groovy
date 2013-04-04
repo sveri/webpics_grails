@@ -1,8 +1,11 @@
 package webpics_grails.auth
 
+import org.apache.shiro.SecurityUtils
 import webpics_grails.pic.Album
 
 class Role {
+    def userService
+
     String name
 
     static ADMINISTRATOR = 'Administrator'
@@ -20,5 +23,13 @@ class Role {
 
     String toString(){
 	return name
+    }
+
+    static listAvailableRoles(){
+        if (SecurityUtils.subject.hasRole(Role.ADMINISTRATOR)) {
+            return list()
+        }
+
+        return User.findByUsername(SecurityUtils.subject.getPrincipal()).getRoles()
     }
 }

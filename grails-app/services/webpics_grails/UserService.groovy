@@ -7,47 +7,63 @@ import webpics_grails.pic.Album
 
 class UserService {
 
-    def isUserAllowedToSeeAlbum(String albumId){
-	if(SecurityUtils.subject.hasRole(Role.ADMINISTRATOR)){
-	    return true
-	}
+    def isUserAllowedToSeeAlbum(String albumId) {
+        if (SecurityUtils.subject.hasRole(Role.ADMINISTRATOR)) {
+            return true
+        }
 
-	def album = Album.get(albumId)
-	def user = getLoggedInUser()
+        def album = Album.get(albumId)
+        def user = getLoggedInUser()
 
-	def retVal = false
+        def retVal = false
 
-	for (role in user.roles){
-	    for(rAlbum in role.albums){
+        for (role in user.roles) {
+            for (rAlbum in role.albums) {
 
-		if(rAlbum.id == album.id){
-		    retVal = true
-		    break
-		}
-	    }
-	}
+                if (rAlbum.id == album.id) {
+                    retVal = true
+                    break
+                }
+            }
+        }
 
-	return retVal
+        return retVal
     }
 
-    def listAllAlbumsUserIsAllowedToSee(){
-	if(SecurityUtils.subject.hasRole(Role.ADMINISTRATOR)){
-	    return Album.list()
-	}
+    def listAllAlbumsUserIsAllowedToSee() {
+        if (SecurityUtils.subject.hasRole(Role.ADMINISTRATOR)) {
+            return Album.list()
+        }
 
-	def user = getLoggedInUser()
-	def albums = []
+        def user = getLoggedInUser()
+        def albums = []
 
-	for (role in user.roles){
-	    for(album in role.albums){
-		albums.add(album)
-	    }
-	}
-	return albums.sort()
+        for (role in user.roles) {
+            for (album in role.albums) {
+                albums.add(album)
+            }
+        }
+        return albums.sort()
     }
 
-    static getLoggedInUser(){
-	    return User.findByUsername(SecurityUtils.subject.getPrincipal())
+    def removeUnallowedRoles(User user){
+        if (SecurityUtils.subject.hasRole(Role.ADMINISTRATOR)) {
+            return
+        }
+
+        def loggedInUser = getLoggedInUser()
+
+        def roleIterator = user.roles.iterator()
+        while(roleIterator.hasNext()){
+            def role = roleIterator.next()
+            if (!loggedInUser.roles.contains(role)){
+                roleIterator.remove()
+            }
+        }
+    }
+
+    static getLoggedInUser() {
+        return User.findByUsername(SecurityUtils.subject.getPrincipal())
     }
 
     static getLoggedinUsersPermissions() {

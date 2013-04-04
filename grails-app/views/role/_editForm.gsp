@@ -5,5 +5,5 @@
 
 <fieldset class="form">
 	<f:field bean="role" property="name"/>
-	<g:permissionSelect name="permissions" size="20" value="${role?.permissions}"/>
+	<g:permissionSelect name="permissions" size="20" value="${role?.permissions?.sort()}"/>
 </fieldset>

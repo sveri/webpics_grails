@@ -4,21 +4,26 @@ import webpics_grails.pic.Album
 
 class RoleController {
 
+    def roleService
+
     def index() {
-	[roles: Role.findAll(sort: "name")]
+        [roles: Role.findAll(sort: "name")]
     }
 
     def add() {
-	    [role: new Role(), albums: Album.findAll(sort: "name")]
+        [role: new Role(), albums: Album.findAll(sort: "name")]
     }
 
     def edit() {
-	    [role: Role.get(params.id), albums: Album.findAll(sort: "name")]
+        [role: Role.get(params.id), albums: Album.findAll(sort: "name")]
     }
 
     def save() {
         def role = new Role(params)
-        if(!role.save()){
+
+        roleService.removeUnallowedPermissions(role)
+
+        if (!role.save()) {
             flash.message = message(code: 'pix.save.wrong')
             render(view: "add", model: [role: role, albums: Album.findAll(sort: "name")])
             return
@@ -26,7 +31,7 @@ class RoleController {
         redirect(action: 'index')
     }
 
-    def update(){
+    def update() {
         def role = Role.get(params.id)
         if (!role) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'role.label', default: 'Role'), params.id])

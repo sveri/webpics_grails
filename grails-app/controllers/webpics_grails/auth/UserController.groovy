@@ -10,6 +10,8 @@ class UserController {
 
 	static allowedMethods = [save: "POST", update: "POST", delete: "POST", changePassword: "POST"]
 
+    def userService
+
 	def index() {
 		[users: User.findAll(sort: "username")]
 	}
@@ -21,6 +23,9 @@ class UserController {
 	def save() {
 		def userInstance = new User(params)
 		def passwordCommand = new PasswordCommand()
+
+        //remove unallowed roles
+        userService.removeUnallowedRoles(userInstance)
 
 		//set blind values for password
 		userInstance.passwordHash = "bla"
@@ -114,6 +119,9 @@ class UserController {
 
 		//        userInstance.properties = params
 		bindData(userInstance, params, [include: ['username', 'roles']])
+
+        //remove unallowed roles
+        userService.removeUnallowedRoles(userInstance)
 
 		if (!userInstance.save(flush: true)) {
 			render(view: "edit", model: [user: userInstance], passwordCommand: new PasswordCommand())

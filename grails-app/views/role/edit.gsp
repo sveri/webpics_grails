@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta name="layout" content="main">
-		<title><g:message code="pix.navigation.role.add"  /></title>
+		<title><g:message code="pix.navigation.role.edit" args="[role.name]" /></title>
 	</head>
 	<body>
 		<g:render template="/user/userLeftNav" />

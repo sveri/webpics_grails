@@ -16,7 +16,7 @@
 		<label for="roles">
 			<g:message code="user.roles.label" default="Roles" />
 		</label>
-		<g:select name="roles" from="${webpics_grails.auth.Role.list()}" multiple="multiple" optionKey="id" size="5" value="${user?.roles*.id}" class="many-to-many"/>
+		<g:select name="roles" from="${webpics_grails.auth.Role.listAvailableRoles()}" multiple="multiple" optionKey="id" size="5" value="${user?.roles*.id}" class="many-to-many"/>
 	</div>
 </fieldset>
 
