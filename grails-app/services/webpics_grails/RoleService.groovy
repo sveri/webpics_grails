@@ -1,13 +1,19 @@
 package webpics_grails
 
 import org.apache.shiro.SecurityUtils
+import org.codehaus.groovy.grails.commons.ApplicationHolder
 import webpics_grails.auth.Role
+import webpics_grails.auth.User
 
 class RoleService {
 
     def grailsApplication
 
     def userService
+
+    def mailService
+
+    static MAIL_FROM_ADRESS = "pix@sveri.de"
 
     def removeUnallowedPermissions(Role role){
         if (SecurityUtils.subject.hasRole(Role.ADMINISTRATOR)) {
@@ -54,5 +60,36 @@ class RoleService {
         } + "*:*").flatten().collect {
             it.toString()
         }.unique().sort()
+    }
+
+    def checkIfNewAlbumGotAddedAndSendEmail(Role role, Set albumsOld) {
+//        def roleOld
+        def currentAlbums = role.albums.minus(albumsOld)
+        def g = grailsApplication.mainContext.getBean('org.codehaus.groovy.grails.plugins.web.taglib.ApplicationTagLib')
+
+        if(role.id){
+//            roleOld = Role.get(role.id)
+//            currentAlbums = currentAlbums.minus(roleOld.albums)
+
+            if(currentAlbums){
+                def allUsers = User.all
+                for(User user in allUsers){
+                    if(user.roles.contains(roleOld) && !user.email.isEmpty()){
+                        mailService.sendMail {
+                            to user.email
+                            from MAIL_FROM_ADRESS
+                            subject g.message(code: "pix.mail.new_album.subject")
+                            body g.message(code: "pix.mail.new_album.body") + " " + g.createLink(uri: '/', absolute: "true")+ currentAlbums
+                        }
+                    }
+                }
+            }
+
+
+        }
+
+
+
+
     }
 }

@@ -1,5 +1,6 @@
 package webpics_grails.auth
 
+import org.springframework.dao.DataIntegrityViolationException
 import webpics_grails.pic.Album
 
 class RoleController {
@@ -33,6 +34,7 @@ class RoleController {
 
     def update() {
         def role = Role.get(params.id)
+//        def albumsOld = role.albums
         if (!role) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'role.label', default: 'Role'), params.id])
             redirect(action: "index")
@@ -49,8 +51,12 @@ class RoleController {
                 return
             }
         }
+        roleService.checkIfNewAlbumGotAddedAndSendEmail(role, params.albums)
 
         role.properties = params
+
+
+        roleService.removeUnallowedPermissions(role)
 
         if (!role.save(flush: true)) {
             render(view: "edit", model: [role: role, albums: Album.findAll(sort: "name")])
@@ -60,5 +66,30 @@ class RoleController {
 
         flash.message = message(code: 'default.updated.message', args: [message(code: 'role.label', default: 'Role'), role.name])
         redirect(action: "index")
+    }
+
+    def delete(Long id) {
+        def roleInstance = Role.get(id)
+        if (!roleInstance) {
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'role.label', default: 'Role'), id])
+            redirect(action: "index")
+            return
+        }
+
+        for(User user in roleInstance.users){
+            user.roles.remove(roleInstance)
+            user.save()
+        }
+
+
+        try {
+            roleInstance.delete(flush: true)
+            flash.message = message(code: 'default.deleted.message', args: [message(code: 'role.label', default: 'Role'), id])
+            redirect(action: "index")
+        }
+        catch (DataIntegrityViolationException e) {
+            flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'role.label', default: 'Role'), id])
+            redirect(action: "index")
+        }
     }
 }

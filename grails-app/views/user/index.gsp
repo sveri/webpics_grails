@@ -14,6 +14,8 @@
 				<tr>
 					<th><g:message code="pix.name" /></th>
 					<th><g:message code="pix.user.roles" /></th>
+					<th><g:message code="pix.email" /></th>
+					<th><g:message code="user.receivesUpdates.label" /></th>
 					<th><g:message code="pix.delete" /></th>
 				</tr>
 			</thead>
@@ -22,6 +24,8 @@
 					<tr>
 						<td><g:link action="edit" id="${user.id}">${user.username}</g:link></td>
 						<td><g:each in="${user.roles }" var="role">${role.name}, </g:each></td>
+                        <td>${user.email}</td>
+                        <td>${user.receivesUpdates}</td>
 						<td>
 							<g:form method="POST">
 								<g:hiddenField name="id" value="${user?.id}" />

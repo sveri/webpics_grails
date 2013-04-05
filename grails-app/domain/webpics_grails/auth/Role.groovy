@@ -10,26 +10,27 @@ class Role {
 
     static ADMINISTRATOR = 'Administrator'
 
-    static hasMany = [ users: User, permissions: String, albums:  Album ]
+    static hasMany = [users: User, permissions: String, albums: Album]
     static belongsTo = User
 
-    static mapping = {sort: "name"
+    static mapping = {
+        sort: "name"
         albums cascade: "save-update"
     }
 
     static constraints = {
-	name(nullable: false, blank: false, unique: true)
+        name(nullable: false, blank: false, unique: true)
     }
 
-    String toString(){
-	return name
+    String toString() {
+        return name
     }
 
-    static listAvailableRoles(){
+    static listAvailableRoles() {
         if (SecurityUtils.subject.hasRole(Role.ADMINISTRATOR)) {
-            return list()
+            return listOrderByName()
         }
 
-        return User.findByUsername(SecurityUtils.subject.getPrincipal()).getRoles()
+        return User.findByUsername(SecurityUtils.subject.getPrincipal()).getRoles().sort()
     }
 }

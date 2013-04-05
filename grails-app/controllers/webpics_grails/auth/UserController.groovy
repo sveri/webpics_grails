@@ -118,7 +118,7 @@ class UserController {
 		}
 
 		//        userInstance.properties = params
-		bindData(userInstance, params, [include: ['username', 'roles']])
+		bindData(userInstance, params, [include: ['username', 'roles', 'email', 'receivesUpdates']])
 
         //remove unallowed roles
         userService.removeUnallowedRoles(userInstance)
