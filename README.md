@@ -50,12 +50,16 @@ This app is only tested with mysql, so dont ask me for support on other database
 This is an example config file:
 
 ```bash
-dataSource.driverClassName=com.mysql.jdbc.Driver
-dataSource.url=jdbc:mysql://localhost/database_name
-dataSource.username=database_username
-dataSource.password=database_password
-pix.image_base_path=/path/to/where/the/pictures/shall/be/stored
-pix.copyright_notice=copyright notice
+dataSource.driverClassName=com.mysql.jdbc.Driver                    # mandantory
+dataSource.url=jdbc:mysql://localhost/database_name                 # mandantory
+dataSource.username=database_username                               # mandantory
+dataSource.password=database_password                               # mandantory
+pix.image_base_path=/path/to/where/the/pictures/shall/be/stored     # mandantory
+pix.copyright_notice=copyright notice                               # optional
+pix.keep_originals=true                                             # optional - defaults to false
+pix.size.big=1900                                                   # optional - defaults to 1900
+pix.size.normal=800                                                 # optional - defaults to 800
+pix.size.thumbs=20                                                  # optional - defaults to 20
 ```
 
 ## Feature History
