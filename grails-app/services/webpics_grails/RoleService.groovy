@@ -62,7 +62,7 @@ class RoleService {
         }.unique().sort()
     }
 
-    def checkIfNewAlbumGotAddedAndSendEmail(Role role, Set albumsOld) {
+    def checkIfNewAlbumGotAddedAndSendEmail(Role role, String[] albumsOld) {
 //        def roleOld
         def currentAlbums = role.albums.minus(albumsOld)
         def g = grailsApplication.mainContext.getBean('org.codehaus.groovy.grails.plugins.web.taglib.ApplicationTagLib')

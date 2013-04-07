@@ -51,10 +51,11 @@ class RoleController {
                 return
             }
         }
-        roleService.checkIfNewAlbumGotAddedAndSendEmail(role, params.albums)
+//        def oldAlbums = [role.albums]
 
         role.properties = params
 
+//        roleService.checkIfNewAlbumGotAddedAndSendEmail(role, (String[]) params.albums)
 
         roleService.removeUnallowedPermissions(role)
 
