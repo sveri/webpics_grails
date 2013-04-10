@@ -27,10 +27,10 @@ class Role {
     }
 
     static listAvailableRoles() {
-        if (SecurityUtils.subject.hasRole(Role.ADMINISTRATOR)) {
+        if (SecurityUtils.subject.hasRole(ADMINISTRATOR)) {
             return listOrderByName()
         }
 
-        return User.findByUsername(SecurityUtils.subject.getPrincipal()).getRoles().sort()
+        return User.findByUsername(SecurityUtils.subject.getPrincipal() as String).getRoles().sort()
     }
 }

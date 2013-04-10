@@ -34,7 +34,6 @@ class RoleController {
 
     def update() {
         def role = Role.get(params.id)
-//        def albumsOld = role.albums
         if (!role) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'role.label', default: 'Role'), params.id])
             redirect(action: "index")
@@ -51,12 +50,13 @@ class RoleController {
                 return
             }
         }
-//        def oldAlbums = [role.albums]
+        def oldAlbums = []
+
+        for(Album album in role.albums){
+            oldAlbums.add(album)
+        }
 
         role.properties = params
-
-//        roleService.checkIfNewAlbumGotAddedAndSendEmail(role, (String[]) params.albums)
-
         roleService.removeUnallowedPermissions(role)
 
         if (!role.save(flush: true)) {
@@ -64,6 +64,8 @@ class RoleController {
             flash.message = message(code: 'pix.save.wrong')
             return
         }
+
+        roleService.checkIfNewAlbumGotAddedAndSendEmail(role, oldAlbums)
 
         flash.message = message(code: 'default.updated.message', args: [message(code: 'role.label', default: 'Role'), role.name])
         redirect(action: "index")

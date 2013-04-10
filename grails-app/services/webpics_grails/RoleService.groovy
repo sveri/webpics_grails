@@ -1,9 +1,10 @@
 package webpics_grails
 
 import org.apache.shiro.SecurityUtils
-import org.codehaus.groovy.grails.commons.ApplicationHolder
+
 import webpics_grails.auth.Role
 import webpics_grails.auth.User
+import webpics_grails.pic.Album
 
 class RoleService {
 
@@ -11,11 +12,9 @@ class RoleService {
 
     def userService
 
-    def mailService
+    def pixMailService
 
-    static MAIL_FROM_ADRESS = "pix@sveri.de"
-
-    def removeUnallowedPermissions(Role role){
+    def removeUnallowedPermissions(Role role) {
         if (SecurityUtils.subject.hasRole(Role.ADMINISTRATOR)) {
             return
         }
@@ -38,9 +37,9 @@ class RoleService {
         }
 
         def permIterator = role.permissions.iterator()
-        while(permIterator.hasNext()){
+        while (permIterator.hasNext()) {
             def perm = permIterator.next()
-            if (!allowedPermissions.contains(perm)){
+            if (!allowedPermissions.contains(perm)) {
                 permIterator.remove()
             }
         }
@@ -48,7 +47,7 @@ class RoleService {
     }
 
     def getAllPermissions() {
-        return ( grailsApplication.controllerClasses.findAll {
+        return (grailsApplication.controllerClasses.findAll {
             it.propertyName != "authController" && it.propertyName != "dbdocController" && it.propertyName != "errorController"
         }.collect { controller ->
             def base = controller.propertyName - 'Controller'
@@ -62,34 +61,27 @@ class RoleService {
         }.unique().sort()
     }
 
-    def checkIfNewAlbumGotAddedAndSendEmail(Role role, String[] albumsOld) {
-//        def roleOld
-        def currentAlbums = role.albums.minus(albumsOld)
-        def g = grailsApplication.mainContext.getBean('org.codehaus.groovy.grails.plugins.web.taglib.ApplicationTagLib')
+    def checkIfNewAlbumGotAddedAndSendEmail(Role role, List<Album> albumsOld) {
+        def newAlbums = []
+        def currentAlbums = role.albums
 
-        if(role.id){
-//            roleOld = Role.get(role.id)
-//            currentAlbums = currentAlbums.minus(roleOld.albums)
-
-            if(currentAlbums){
-                def allUsers = User.all
-                for(User user in allUsers){
-                    if(user.roles.contains(roleOld) && !user.email.isEmpty()){
-                        mailService.sendMail {
-                            to user.email
-                            from MAIL_FROM_ADRESS
-                            subject g.message(code: "pix.mail.new_album.subject")
-                            body g.message(code: "pix.mail.new_album.body") + " " + g.createLink(uri: '/', absolute: "true")+ currentAlbums
-                        }
-                    }
-                }
+        for (Album album in currentAlbums) {
+            if (!albumsOld.find { it.id == album.id }) {
+                newAlbums.add(album)
             }
-
-
         }
 
+        if (newAlbums) {
+            pixMailService.sendNewAlbumMailForRole(role)
+        }
+    }
 
-
-
+    def checkIfOneAlbumExistsForUserRoles(User user) {
+        for (Role role in user.roles) {
+            if (!role.albums.isEmpty()) {
+                return true
+            }
+        }
+        return false
     }
 }

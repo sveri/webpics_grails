@@ -63,7 +63,7 @@ class UserService {
     }
 
     static getLoggedInUser() {
-        return User.findByUsername(SecurityUtils.subject.getPrincipal())
+        return User.findByUsername(SecurityUtils.subject.getPrincipal() as String)
     }
 
     static getLoggedinUsersPermissions() {
@@ -75,5 +75,14 @@ class UserService {
             }
         }
         return permissions.unique().sort()
+    }
+
+    def checkIfNewRoleGotAddedToUser(User user, List<Role> rolesOld) {
+        for (Role roleNew in user.roles) {
+            if (!rolesOld.find { it.id == roleNew.id }) {
+                return true
+            }
+        }
+        return false
     }
 }

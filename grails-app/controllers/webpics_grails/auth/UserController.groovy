@@ -11,8 +11,10 @@ class UserController {
 	static allowedMethods = [save: "POST", update: "POST", delete: "POST", changePassword: "POST"]
 
     def userService
+    def pixMailService
+    def roleService
 
-	def index() {
+    def index() {
 		[users: User.findAll(sort: "username")]
 	}
 
@@ -52,6 +54,10 @@ class UserController {
 			render(view: "create", model: [user: userInstance, passwordCommand: new PasswordCommand()])
 			return
 		}
+
+        if(roleService.checkIfOneAlbumExistsForUserRoles(userInstance)){
+            pixMailService.sendNewAlbumMailForUser(userInstance)
+        }
 
 		flash.message = message(code: 'default.created.message', args: [message(code: 'pix.user', default: 'User'), userInstance.username])
 		redirect(action: "index")
@@ -101,6 +107,7 @@ class UserController {
 
 	def update(Long id, Long version) {
 		def userInstance = User.get(id)
+        def rolesOld = []
 		if (!userInstance) {
 			flash.message = message(code: 'default.not.found.message', args: [message(code: 'pix.user', default: 'User'), id])
 			redirect(action: "index")
@@ -117,6 +124,11 @@ class UserController {
 			}
 		}
 
+        // get old roles
+        for (Role role in userInstance.roles) {
+            rolesOld.add(role)
+        }
+
 		//        userInstance.properties = params
 		bindData(userInstance, params, [include: ['username', 'roles', 'email', 'receivesUpdates']])
 
@@ -127,6 +139,10 @@ class UserController {
 			render(view: "edit", model: [user: userInstance], passwordCommand: new PasswordCommand())
 			return
 		}
+
+        if(userService.checkIfNewRoleGotAddedToUser(userInstance, rolesOld)){
+            pixMailService.sendNewAlbumMailForUser(userInstance)
+        }
 
 		flash.message = message(code: 'default.updated.message', args: [message(code: 'pix.user', default: 'User'), userInstance.username])
 		redirect(action: "edit", id: userInstance.id)
