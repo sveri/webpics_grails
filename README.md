@@ -5,13 +5,6 @@ Is a picture viewer for your own webserver and all the people that dont want to 
 
 You can get the current version at: http://youdist.com/sonstiges/pix-0.2.3.war
 
-Username: demo
-
-Password: demodemo
-
-Uploading and adding/editing users/roles is disabled on this demo.
-
-
 ## Features
 The following features are currently available.
 
